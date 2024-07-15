@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -8967462472312869798}
   m_Layer: 6
   m_Name: bullet 1
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -119,12 +119,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821c205132e043f488dd8eb45a0c5c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 30
   Layer:
     serializedVersion: 2
-    m_Bits: 72
-  IsCheck: 1
+    m_Bits: 64
+  HitEffect: {fileID: 426454863524683694, guid: 01d7d3401c11b9d4382bbbd08962da8e, type: 3}
   Dir: {x: 0, y: 0, z: 1}
+  Speed: 40
+  Power: 20
+  IsCheck: 1
 --- !u!54 &-8967462472312869798
 Rigidbody:
   m_ObjectHideFlags: 0

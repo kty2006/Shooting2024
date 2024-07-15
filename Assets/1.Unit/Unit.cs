@@ -2,52 +2,68 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 using Random = UnityEngine.Random;
+using System.Xml.Linq;
 
 [Serializable]
 public class States
 {
-    public Unit unit;
-    public float hp;
-    public float Hp { get => hp; set { hp -= value; if (hp <= 0) { unit.Death(); }; } }
+    public float MaxHp = 100;
+    public float Hp;
+    public static int MaxLv = 20;
     public int Lv;
+    public int ItemLv;
     public int AttackSpeed;
     public int MoveSpeed;
-    public float Exp;
-    public float Power; /*{ get => Power; set {  }*/
+    public int Exp;
+    public float Power;
     public float[] SkillCoolTime;
 
-    public float GetPower()
-    {
-        return Power;
-    }
-
-    public void SetPower(float value)
+    public void Set(float value) //스텟 사용할때마다 변경점이 있는지 확인
     {
         if (Power == value)
         { return; };
         Power = value;
     }
 
-    public States(Unit unit)
+    public void Set(int value)
     {
-        this.unit = unit;
+        if (Power == value)
+        { return; };
+        Power = value;
     }
 }
-public class Unit : MonoBehaviour
+
+[Serializable]
+public class HpUIObj
 {
-    public States unitStates; //직접적으로 스텟 변수를 접근 하지 못하게 함수를 사용한 접근 변수를 null로 한다던가 접근 못함
+    public Text Hp;
+    public Image HpFill;
+    public Image HpUI;
+}
+
+public abstract class Unit : MonoBehaviour, IVisitElement
+{
+    public States unitStates = new(); //직접적으로 스텟 변수를 접근 하지 못하게 함수를 사용한 접근 변수를 null로 한다던가 접근 못함
+    public HpUIObj HpUIObj = new();
     public IAttack CurrentWeapon;
     public IMove MoveType;
     public ISkill SkillType;
-    public Bullet BulletPrefab;
+    public IVisit UIHp;
+    public EffectData EffectData;
+    public Bullet NormalBulletPrefab;
+    protected Bullet currentHitBullet;
 
-    public virtual void Start()
+    protected virtual void Start()
     {
         BulletPool();
-        unitStates = new States(this);
     }
 
+    protected virtual void Update()
+    {
+    }
     public void ChangeType(IAttack attack)
     {
         CurrentWeapon = attack;
@@ -73,32 +89,58 @@ public class Unit : MonoBehaviour
 
     public virtual void BulletPool()
     {
-        ObjectPool.Instance.AddPool(BulletPrefab.Layer);
+        ObjectPool.Instance.AddPool(NormalBulletPrefab.gameObject.tag);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.TryGetComponent(out Bullet bullet))
         {
-            Color saveColor = Color.black;
-            gameObject.TryGetComponent(out MeshRenderer mesh);
-            TimeAgent hit = new(1, (timeAgent) => { saveColor = mesh.material.color; }, (timeAgent) => { mesh.material.color = Random.ColorHSV(); }, (timeAgent) => { mesh.material.color = saveColor; }); ;
-            unitStates.Hp -= bullet.Power;
-            TimerSystem.Instance.AddTimer(hit);
+            currentHitBullet = bullet;
+            unitStates.Hp -= currentHitBullet.Power;
+            HitEffectPlay();
+            HpUI();
+            if (unitStates.Hp <= 0)
+                Death();
+        }
+    }
+    //public virtual void OnCollisionEnter(Collision collision)
+    //{
+    //}
+    public virtual void Death()
+    {
+        if (gameObject.layer != 8) //적유닛이 죽을때 플레이어에게 경험치 적용 적유닛에서 플레이어에 접근하는것이기 때문에 객체지향 위반 
+        {
+            Player.Instance.KillCountUp(this);
         }
     }
 
-    public virtual void Death()
+    [ContextMenu("LvUp")]
+    public void LvUp() // ContexttMenu사용 때문에 따로 스텟 클래스에서 빼서 사용
     {
-        //Unit u = new();
-        //var check = u.GetStates();
-        //check.Hp = 0;
+        unitStates.MaxHp = 90;
+        unitStates.MaxHp += Mathf.Clamp(10 * unitStates.Lv, 0, 200);
+        unitStates.Hp = unitStates.MaxHp;
+        unitStates.Power = Mathf.Clamp(unitStates.Lv, 0, 20);
+        HpUI();
     }
 
-    public States GetStates()
+    public States GetStates() //스텟을 사용할때 스텟 변수에 직접적인 접근을 막기 위해 사용
     {
         return unitStates;
     }
 
-    public
+    public virtual void Accept(IVisit visit)
+    {
+        visit.Visit(unitStates);
+    }
+    public virtual void HpUI()
+    {
+        HpUIObj.Hp.text = $"HP {unitStates.Hp}";
+        HpUIObj.HpFill.fillAmount = unitStates.Hp / unitStates.MaxHp;
+    }
+
+    public abstract void HitEffectPlay();
+
+    public abstract void HitAction();
 }

@@ -3,7 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - UIHpFill
+  - UIHpText
+  - PlayerBullet
+  - EnemyBullet
+  - Monster1
+  - Monster2
+  - Monster3
+  - HpUI
+  - NormalHitEffect
+  - ChargingEffectt
+  - AssiantGunItem
+  - BombItem
+  - CannonItem
+  - GodTimeItem
+  - HpUpItem
   layers:
   - Default
   - TransparentFX
@@ -14,12 +29,12 @@ TagManager:
   - EnemyBullet
   - Monster1
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Monster2
+  - Monster3
+  - HpUI
+  - NormalHitEffect
+  - Item
+  - Enemy
   - 
   - 
   - 

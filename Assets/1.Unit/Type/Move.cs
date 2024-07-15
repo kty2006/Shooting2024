@@ -18,9 +18,11 @@ public class PlayerMove : IMove
     {
         Horizontal = Input.GetAxis("Horizontal");
         Vertical = Input.GetAxis("Vertical");
+        
+        Unit.transform.rotation = Quaternion.Euler(0,0, (Horizontal*-1)*20);
         Dir = new(Horizontal, 0, Vertical);
         Dir.Normalize();
-        Unit.transform.Translate(Dir * Unit.unitStates.MoveSpeed * Time.fixedDeltaTime);
+        Unit.transform.Translate(Dir * Unit.unitStates.MoveSpeed * Time.fixedDeltaTime, Space.World);
     }
 }
 
