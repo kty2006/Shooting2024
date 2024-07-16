@@ -20,7 +20,7 @@ public class LaserObj : MonoBehaviour
         for (; currentTime > 0; currentTime -= 0.02f)
         {
             Laser.SetWidth(currentTime, currentTime);
-            SkillUi.Instance.SkillUiFill(5);
+            SkillUi.Instance.UnSkillUiFill(currentTime);
             yield return null;
             RaycastHit[] hit = Physics.SphereCastAll(transform.position, 50, Vector3.forward, 100, LayerMask.GetMask("Enemy"));
             foreach (var ray in hit)
