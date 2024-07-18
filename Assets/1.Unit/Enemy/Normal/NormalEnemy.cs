@@ -41,7 +41,7 @@ public class NormalEnemy : Enemy
 
     public IEnumerator EnemyTime()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(18);
         ObjectPool.Instance.EnqueuePool(gameObject);
     }
 

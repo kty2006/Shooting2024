@@ -17,4 +17,6 @@ MonoBehaviour:
   CannonNormalHitEffect: {fileID: 0}
   CannonLaserEffect: {fileID: 0}
   DragonFireEffect: {fileID: 3297588288461838220, guid: 8e9e31cd18c204a49b78f6bb82e124a1, type: 3}
+  WindEffect: {fileID: 3771502597962833659, guid: 7c66f251a60db1748ad19146ffa8cffe, type: 3}
+  Tornado: {fileID: 5189716585171218402, guid: bff31ebde704ab544b3942bc41d4b0fd, type: 3}
   LaserEffect: {fileID: 963013353907500545, guid: 386aaf496c4d3d144a0c5dfbdec59dae, type: 3}

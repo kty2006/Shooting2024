@@ -19,6 +19,7 @@ TagManager:
   - CannonItem
   - GodTimeItem
   - HpUpItem
+  - Wing
   layers:
   - Default
   - TransparentFX

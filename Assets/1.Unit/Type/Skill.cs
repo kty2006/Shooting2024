@@ -25,7 +25,7 @@ public class LaserSkill : ISkill
         SkillTimeAgent = new(CoolTime, (timeAgent) => IsCheck = false, (timeAgent) => { SkillUi.Instance.SkillUiFill(CoolTime); }, (timeAgent) => IsCheck = true);
         laserObj = Unit.EffectData.CreateLaserEffect(Unit.transform.position + new Vector3(0, 0, 20), Quaternion.identity);
         TimerSystem.Instance.AddTimer(SkillTimeAgent);
-        //laserObj.transform.parent = Unit.transform;
+        laserObj.transform.parent = Unit.transform;
         //Laser = laserObj.GetComponentInChildren<LineRenderer>();
         //Charging = laserObj.GetComponentInChildren<ParticleSystem>();
     }

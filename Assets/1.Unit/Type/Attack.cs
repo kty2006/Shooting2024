@@ -138,7 +138,8 @@ public class DragonAttack : IAttack
         if (dragon.DragonSkill == null)
         {
             dragon.DragonSkill = dragon.StartCoroutine(AttackDelay());
-            dragon.ChangeType(dragon.BossType.Pattern[dragon.BossType.PatternOrder]);
+            Debug.Log(this);
+            dragon.ChangePattern(dragon.BossType.Pattern[dragon.BossType.PatternOrder]);
             currentTime = 0;
         }
     }
@@ -275,12 +276,13 @@ public class DragonGust : DragonAttack
         while (currentTime < maxTime)
         {
             dragon.Animator.SetBool("Gust", true);
+            dragon.EffectData.CreateWind(dragon.WindPos.position, dragon.WindPos.rotation);
+            yield return new WaitForSeconds(4);
             if (dragon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Vox_Dragon_Breath_Fw 0"))
             {
                 if (dragon.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 {
                     dragon.Animator.SetBool("Gust", false);
-                    yield return new WaitForSeconds(1);
                     currentTime += 1;
                 }
             }
@@ -309,6 +311,8 @@ public class DragonTornado : DragonAttack
         while (currentTime < maxTime)
         {
             dragon.Animator.SetBool("Tornado", true);
+            CreateTornado();
+            yield return new WaitForSeconds(4);
             if (dragon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Vox_Dragon_Breath_Fw"))
             {
                 if (dragon.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
@@ -321,5 +325,20 @@ public class DragonTornado : DragonAttack
             yield return null;
         }
         dragon.DragonSkill = null;
+    }
+
+    private void CreateTornado()
+    {
+        int sign = 1;
+        dragon.EffectData.CreateTornado(dragon.TornadoPos.position, Quaternion.Euler(-90, 0, 0));
+        for (int i = 0; i < 2; i++)
+        {
+            dragon.EffectData.CreateTornado(dragon.TornadoPos.position, Quaternion.Euler(-90, sign * 80, 0));
+            sign = sign switch
+            {
+                1 => -1,
+                -1 => 1
+            };
+        }
     }
 }
