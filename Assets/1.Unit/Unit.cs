@@ -44,7 +44,9 @@ public class HpUIObj
     public Image HpUI;
 }
 
-public abstract class Unit : MonoBehaviour, IVisitElement
+public abstract class Unit : MonoBehaviour, IVisitElement 
+//unit에서 플레이어 적을 자식으로 두니까 적에서 일반/보스 또 나누어질때 구조가 복잡해진다고 느껴서 unit을 만들지 않고
+//플레이어, 적을 만들고 공통적인 요소는 그냥 클래스를 만들던가 인터페이스로 분리해 사용하는것이 더 좋을거 같다.
 {
     public States unitStates = new(); //직접적으로 스텟 변수를 접근 하지 못하게 함수를 사용한 접근 변수를 null로 한다던가 접근 못함
     public HpUIObj HpUIObj = new();
@@ -64,7 +66,7 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     protected virtual void Update()
     {
     }
-    public void ChangeType(IAttack attack)
+    public virtual void ChangeType(IAttack attack)
     {
         CurrentWeapon = attack;
     }

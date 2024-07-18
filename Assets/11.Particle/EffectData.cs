@@ -9,6 +9,7 @@ public class EffectData : ScriptableObject
     public ParticleSystem CannonHitEffect;
     public ParticleSystem CannonNormalHitEffect;
     public ParticleSystem CannonLaserEffect;
+    public ParticleSystem DragonFireEffect;
     public GameObject LaserEffect;
     public ParticleSystem CreateChargingEffect(Vector3 pos, Quaternion rotate)
     {
@@ -17,5 +18,9 @@ public class EffectData : ScriptableObject
     public GameObject CreateLaserEffect(Vector3 pos, Quaternion rotate)
     {
         return Instantiate(LaserEffect, pos, rotate);
+    }
+    public ParticleSystem CreateFire(Vector3 pos, Quaternion rotate)
+    {
+        return Instantiate(DragonFireEffect, pos, rotate);
     }
 }

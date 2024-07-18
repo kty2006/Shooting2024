@@ -15,7 +15,6 @@ public class SkillUi : MonoSingleTone<SkillUi>
     {
         if (SkillFill.fillAmount < 1)
         {
-            Debug.Log("¿Ã¶ó°¨");
             CurrentCoolTime += Time.deltaTime;
         }
         SkillFill.fillAmount = CurrentCoolTime / time;

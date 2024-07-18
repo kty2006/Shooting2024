@@ -127,3 +127,199 @@ public class NormalEnemyAttack : NormalAttack
     }
 }
 
+
+public class DragonAttack : IAttack
+{
+    public Dragon dragon;
+    public float currentTime;
+    public float maxTime;
+    public virtual void Attack()
+    {
+        if (dragon.DragonSkill == null)
+        {
+            dragon.DragonSkill = dragon.StartCoroutine(AttackDelay());
+            dragon.ChangeType(dragon.BossType.Pattern[dragon.BossType.PatternOrder]);
+            currentTime = 0;
+        }
+    }
+    public virtual IEnumerator AttackDelay()
+    {
+        yield return null;
+    }
+}
+
+public class DragonFire : DragonAttack
+{
+
+    public DragonFire(Dragon dragon)
+    {
+        this.dragon = dragon;
+        maxTime = dragon.unitStates.SkillCoolTime[0];
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+    }
+
+    public override IEnumerator AttackDelay()
+    {
+        ParticleSystem FireEffect =
+            dragon.EffectData.CreateFire(dragon.FirePos.transform.position, Quaternion.Euler(0, 180, 0));
+        FireEffect.transform.parent = dragon.FirePos.transform;
+        FireEffect.transform.localScale = new Vector3(25, 30, 20);
+        //FireEffect.transform.position = dragon.FirePos.transform.position;
+        while (currentTime < maxTime)
+        {
+            dragon.Animator.SetBool("Fire", true);
+            FireEffect.Play();
+            if (dragon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Vox_Dragon_Breath_F 0"))
+            {
+                if (dragon.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                {
+                    dragon.Animator.SetBool("Fire", false);
+                    yield return new WaitForSeconds(1);
+                    FireEffect.Stop();
+                    currentTime += 1;
+                }
+            }
+            yield return null;
+        }
+        dragon.DragonSkill = null;
+    }
+}
+
+public class DragonRush : DragonAttack
+{
+
+    public DragonRush(Dragon dragon)
+    {
+        this.dragon = dragon;
+        maxTime = dragon.unitStates.SkillCoolTime[1];
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+    }
+
+    public override IEnumerator AttackDelay()
+    {
+        float time = 0;
+        while (dragon.transform.position.y < (-683))
+        {
+            dragon.transform.position = Vector3.Lerp
+                (dragon.transform.position, new Vector3(dragon.transform.position.x, -678.9f, dragon.transform.position.z), 0.02f);
+            yield return null;
+        }
+        while (currentTime < maxTime)
+        {
+            time = 0;
+            int count = Random.Range(1, dragon.RushPos.Count);
+            dragon.InsWaring(dragon.RushPos[count]);
+            Debug.Log(count);
+            while (time < 2)
+            {
+                dragon.transform.position = Vector3.Lerp(dragon.transform.position, dragon.RushPos[count].position, 0.05f);
+                dragon.transform.rotation = Quaternion.Lerp(dragon.transform.rotation, dragon.RushPos[count].rotation, 0.05f);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            Debug.Log("move");
+            dragon.Animator.SetBool("Rush", true);
+            time = 0;
+            yield return new WaitForSeconds(1);
+            while (time < 3)
+            {
+                dragon.transform.Translate(Vector3.forward * Time.deltaTime * dragon.GetStates().AttackSpeed);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            if (dragon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Vox_Dragon_Rush 0"))
+            {
+                if (dragon.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                {
+                    dragon.Animator.SetBool("Rush", false);
+                    currentTime += 1;
+                }
+            }
+        }
+        time = 0;
+        while (time < 2)
+        {
+            dragon.transform.position = Vector3.Lerp(dragon.transform.position, dragon.RushPos[0].position, 0.05f);
+            dragon.transform.rotation = Quaternion.Lerp(dragon.transform.rotation, dragon.RushPos[0].rotation, 0.05f);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        dragon.DragonSkill = null;
+    }
+}
+
+public class DragonGust : DragonAttack
+{
+
+    public DragonGust(Dragon dragon)
+    {
+        this.dragon = dragon;
+        maxTime = dragon.unitStates.SkillCoolTime[2];
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+    }
+
+    public override IEnumerator AttackDelay()
+    {
+        while (currentTime < maxTime)
+        {
+            dragon.Animator.SetBool("Gust", true);
+            if (dragon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Vox_Dragon_Breath_Fw 0"))
+            {
+                if (dragon.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                {
+                    dragon.Animator.SetBool("Gust", false);
+                    yield return new WaitForSeconds(1);
+                    currentTime += 1;
+                }
+            }
+            yield return null;
+        }
+        dragon.DragonSkill = null;
+    }
+}
+
+public class DragonTornado : DragonAttack
+{
+
+    public DragonTornado(Dragon dragon)
+    {
+        this.dragon = dragon;
+        maxTime = dragon.unitStates.SkillCoolTime[3];
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+    }
+
+    public override IEnumerator AttackDelay()
+    {
+        while (currentTime < maxTime)
+        {
+            dragon.Animator.SetBool("Tornado", true);
+            if (dragon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Vox_Dragon_Breath_Fw"))
+            {
+                if (dragon.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                {
+                    dragon.Animator.SetBool("Tornado", false);
+                    yield return new WaitForSeconds(1);
+                    currentTime += 1;
+                }
+            }
+            yield return null;
+        }
+        dragon.DragonSkill = null;
+    }
+}
