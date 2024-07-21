@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingleTone<GameManager>
 {
+    public bool GameStart;
+    public float Progress = 0;
     private void Start()
     {
         SettingType();
@@ -11,11 +13,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Player.Instance.MoveType.Move();
-        Player.Instance.CurrentWeapon.Attack();
-        if(Input.GetKey(KeyCode.Z))
+        if (GameStart)
+        {
+            Progress += Time.deltaTime;
+            Player.Instance.MoveType.Move();
+            Player.Instance.CurrentWeapon.Attack();
             Player.Instance.SkillType.Skill();
-
+        }
     }
 
     private void SettingType()
@@ -23,9 +27,13 @@ public class GameManager : MonoBehaviour
         Player.Instance.ChangeType(new PlayerMove(Player.Instance));
         Player.Instance.ChangeType(new PlayerNormalAttack(Player.Instance, 50, 0));
         Player.Instance.ChangeType(new LaserSkill(Player.Instance, 0.1f, 2));
-        //Player.Instance.ChangeType(new PlayerBoomAttack(Player.Instance, 1));
-        //Player.Instance.ChangeType(new PlayerAssiantAttack(Player.Instance, 50, 0, Player.Instance.AssiantGuns));
     }
 
+    public void GameStartSequence()
+    {
+        GameStart = true;
+        GameObject EnemyManager = transform.GetChild(0).gameObject;
+        EnemyManager.SetActive(true);
+    }
 
 }

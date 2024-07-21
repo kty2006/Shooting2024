@@ -10,7 +10,6 @@ using System.Linq;
 
 public class Enemy : Unit
 {
-    public LayerMask TypeLayer;
     protected Image hpUI;
     public ItemData itemData;
     protected override void Start()
@@ -24,7 +23,7 @@ public class Enemy : Unit
             (transform.position, Quaternion.Euler(0, 180, 0), currentHitBullet.HitEffect.gameObject);
     }
 
-    public void EnqueuEnemy()
+    public virtual void EnqueuEnemy()
     {
         ObjectPool.Instance.EnqueuePool(gameObject);
     }

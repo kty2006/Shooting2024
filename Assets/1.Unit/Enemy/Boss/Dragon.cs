@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dragon : Enemy, Boss
+public class Dragon : Enemy
 {
-    public BossType BossType { get; set; } = new();
+    public BossType BossType  = new();
     public List<Transform> RushPos;
     public Transform FirePos;
     public Transform WindPos;
@@ -28,9 +28,8 @@ public class Dragon : Enemy, Boss
 
     public void ChangePattern(IAttack attack)
     {
-        base.ChangeType(attack);
         BossType.PatternOrder = (BossType.PatternOrder + 1 < BossType.Pattern.Count) ? BossType.PatternOrder += 1 : 0;
-        Debug.Log(BossType.PatternOrder);
+        ChangeType(BossType.Pattern[BossType.PatternOrder]);
     }
 
     public void InsWaring(Transform pos)

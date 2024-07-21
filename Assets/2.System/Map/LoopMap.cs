@@ -10,7 +10,7 @@ public class LoopMap : MonoBehaviour
     public void Update()
     {
         transform.Translate(-Vector3.forward * Time.deltaTime * Speed);
-        if ( transform.position.z <= -Offset)
+        if ( transform.position.z <= -2585)
         {
             Debug.Log("·çÇÁ");
             transform.position = new Vector3(0, 0, Offset);

@@ -11,7 +11,7 @@ public class SkillUi : MonoSingleTone<SkillUi>
     public Text PressZ;
     public float CurrentCoolTime;
     private bool check = true;
-    public void SkillUiFill(float time)
+    public bool SkillUiFill(float time)
     {
         if (SkillFill.fillAmount < 1)
         {
@@ -19,6 +19,7 @@ public class SkillUi : MonoSingleTone<SkillUi>
         }
         SkillFill.fillAmount = CurrentCoolTime / time;
         SkillPercent.text = $"{((CurrentCoolTime / time) * 100).ConvertTo<int>()}";
+        return SkillFill.fillAmount == 1;
     }
 
     public void UnSkillUiFill(float currentTime)
@@ -30,5 +31,6 @@ public class SkillUi : MonoSingleTone<SkillUi>
         //}
         SkillFill.fillAmount = currentTime / 20;
         SkillPercent.text = $"{((currentTime / 20) * 100).ConvertTo<int>()}";
+        CurrentCoolTime = 0;
     }
 }

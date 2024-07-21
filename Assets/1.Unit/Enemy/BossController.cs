@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    public Enemy Enemies = new();
+    public List<Enemy> Enemies = new();
     public Transform StartPos;
     
 
@@ -14,19 +14,22 @@ public class BossController : MonoBehaviour
         StartCoroutine(BossAction());
     }
 
-    public void InstantiateBoss()
-    {
-        if (Instantiate(Enemies, StartPos.position, Quaternion.identity).TryGetComponent(out Enemy enemy))
-        {
-            Enemies = enemy;
-        }
-    }
+    //public void InstantiateBoss()
+    //{
+    //    if (Instantiate(Enemies, StartPos.position, Quaternion.identity).TryGetComponent(out Enemy enemy))
+    //    {
+    //        Enemies = enemy;
+    //    }
+    //}
 
     public IEnumerator BossAction()
     {
         while (true)
         {
-            Enemies.CurrentWeapon.Attack();
+            foreach (Enemy enemy in Enemies)
+            {
+                enemy.CurrentWeapon.Attack();
+            }
             yield return new WaitForSeconds(3);
         }
     }

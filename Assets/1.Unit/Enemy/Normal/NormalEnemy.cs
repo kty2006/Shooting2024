@@ -8,17 +8,11 @@ using UnityEngine.UI;
 public class NormalEnemy : Enemy
 {
     public Coroutine NormalEnemyTime;
+    public int DieTime;
     public void OnEnable()
     {
         HpUISet();
         NormalEnemyTime = StartCoroutine(EnemyTime());
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        ChangeType(new EnemyMove(this));
-        ChangeType(new NormalEnemyAttack(this, 1, 0));
     }
 
     protected override void Update()
@@ -37,12 +31,13 @@ public class NormalEnemy : Enemy
         DropItem(1);
         EnqueuEnemy();
         base.Death();
+        Debug.Log("hpuiÁ×À½");
     }
 
     public IEnumerator EnemyTime()
     {
-        yield return new WaitForSeconds(18);
-        ObjectPool.Instance.EnqueuePool(gameObject);
+        yield return new WaitForSeconds(13);
+        EnqueuEnemy();
     }
 
     public void HpUISet()
@@ -66,7 +61,7 @@ public class NormalEnemy : Enemy
         HpUIObj.HpUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 10, 0));
     }
 
-    public void EnqueuHpUI()
+    public virtual void EnqueuHpUI()
     {
         ObjectPool.Instance.EnqueuePool(HpUIObj.HpUI.gameObject);
     }

@@ -6,6 +6,7 @@ public class CameraMove : MonoBehaviour
 {
     public Transform PlayerViewPos;
     public Vector3 MaxLimit, MinLimit;
+    public int flowCameraSpeed;
     #region Limit함수
     //Limit함수를 player도 사용하지만 player와 camera에서 사용하는 Limit함수,변수를
     //GameManager같은 클래스에서 작성하고 사용하기는 Limit이 다르게 작동하고 변수도 다른값이 필요하기 때문에
@@ -14,14 +15,14 @@ public class CameraMove : MonoBehaviour
     #endregion
     private void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, PlayerViewPos.position, Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, PlayerViewPos.position, Time.deltaTime*flowCameraSpeed);
         Limit();
     }
 
     public void Limit()
     {
-        float x = Mathf.Clamp(transform.position.x, Player.Instance.MinLimit.x+ MinLimit.x, Player.Instance.MaxLimit.x- MaxLimit.x);
-        float z = Mathf.Clamp(transform.position.z, Player.Instance.MinLimit.z - MinLimit.z, Player.Instance.MaxLimit.z - MaxLimit.z);
+        float x = Mathf.Clamp(transform.position.x, MinLimit.x, MaxLimit.x);
+        float z = Mathf.Clamp(transform.position.z, MinLimit.z, MaxLimit.z);
         transform.position = new Vector3(x, transform.position.y, z);
     }
 }

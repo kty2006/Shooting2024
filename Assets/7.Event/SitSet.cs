@@ -6,8 +6,9 @@ using UnityEngine;
 public class SitSet : MonoSingleTone<SitSet>
 {
     public Action OnEnd = null;
+    public float timer;
     public List<EventBusSet> Event = new();
-    public int Index = 0;
+    private int Index = 0;
     bool boundary;
     public void PlaySitSet(Action OnEnd)
     {
@@ -17,15 +18,22 @@ public class SitSet : MonoSingleTone<SitSet>
 
     public void ActionEvent()
     {
-        boundary = true;
-        while (boundary)
+        Event[Index].PlayEventSet(() =>
         {
-            Event[Index].PlayEventSet(() =>
-            {
-                if (EndCheckEventData())
-                    EndEventData();
-            });
-        }
+            if (EndCheckEventData())
+                EndEventData();
+            else
+                ActionEvent();
+        });
+        //boundary = true;
+        //while (boundary)
+        //{
+        //    Event[Index].PlayEventSet(() =>
+        //    {
+        //        if (EndCheckEventData())
+        //            EndEventData();
+        //    });
+        //}
     }
 
     private bool EndCheckEventData()

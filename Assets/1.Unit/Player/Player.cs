@@ -12,6 +12,7 @@ public class KillCount
 public class Player : Unit
 {
     public static Player Instance;
+    public MeshRenderer[] Renderer;
     public GameObject Bomb;
     public KillCount killCount = new();
     public GameObject[] AssiantGuns;
@@ -46,7 +47,7 @@ public class Player : Unit
             unitStates.Lv += 1;
             unitStates.Exp = 0;
             LvUp();
-            
+
         }
     }
 
@@ -85,13 +86,38 @@ public class Player : Unit
 
     }
 
-    public void GodTime(Color color, int time)
+    public IEnumerator GodTime(Color color, int time)
     {
-        gameObject.TryGetComponent(out MeshRenderer mesh);
-        gameObject.TryGetComponent(out MeshCollider collider);
-        TimeAgent godTime = new(time, (timeAgent) => { collider.enabled = false; }, (timeAgent) => { mesh.material.color = color; mesh.material.color = Color.white; },
-            (timeAgent) => { mesh.material.color = Color.white; collider.enabled = true; });
-        TimerSystem.Instance.AddTimer(godTime);
+        float currentTime = 0;
+        foreach (var render in Renderer)
+        {
+            if (render.TryGetComponent(out MeshCollider collider))
+            {
+                collider.enabled = false;
+            }
+        }
+        while (currentTime < time)
+        {
+            foreach (var render in Renderer)
+            {
+                render.materials[0].color = color;
+                yield return null;
+                render.materials[0].color = Color.white;
+                currentTime += Time.deltaTime;
+            }
+            yield return null;
+        }
+        foreach (var render in Renderer)
+        {
+            render.materials[0].color = Color.white;
+            if (render.TryGetComponent(out MeshCollider collider))
+            {
+                collider.enabled = true;
+            }
+        }
+        //TimeAgent godTime = new(time, (timeAgent) => { collider.enabled = false; }, (timeAgent) => {  },
+        //    (timeAgent) => { mesh.material.color = Color.white; collider.enabled = true; });
+        //TimerSystem.Instance.AddTimer(godTime);
     }
 
     public override void HitAction()

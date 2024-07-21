@@ -151,11 +151,11 @@ Transform:
   m_GameObject: {fileID: 759004668348201305}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.173, z: 0.984}
   m_LocalScale: {x: 25, y: 30, z: 20}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 7022583608600222799}
+  m_Father: {fileID: 3522397756044698278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &972587412974363562
 GameObject:
@@ -761,6 +761,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4587132441161928120}
   - {fileID: 7022583608600222799}
   m_Father: {fileID: 43274135832170373}
   m_LocalEulerAnglesHint: {x: 35.027557, y: -12.889629, z: -2.1453333}
@@ -793,7 +794,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4587132441161928120}
   - {fileID: 7361798907085817939}
   m_Father: {fileID: 3522397756044698278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -967,7 +967,7 @@ GameObject:
   - component: {fileID: 9006853320000382118}
   - component: {fileID: 7217104090929094310}
   - component: {fileID: 4937684755687619773}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: DragonBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1129,8 +1129,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   itemData: {fileID: 11400000, guid: 3275c4752ec301e4c9a9c9a73d444620, type: 2}
-  Animator: {fileID: 7217104090929094310}
+  BossType:
+    PatternOrder: 0
+  RushPos: []
   FirePos: {fileID: 4587132441161928120}
+  WindPos: {fileID: 0}
+  TornadoPos: {fileID: 0}
+  Animator: {fileID: 7217104090929094310}
   WaringObj: {fileID: 2414601975202461822, guid: 5c30cff8f6a617245bb7ab30fd1e0b3c, type: 3}
 --- !u!1 &8502334430404903402
 GameObject:

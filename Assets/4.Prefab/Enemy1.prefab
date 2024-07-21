@@ -19362,7 +19362,7 @@ GameObject:
   - component: {fileID: 1729312421040730194}
   - component: {fileID: 3457476131392548455}
   - component: {fileID: 3595053098372333937}
-  - component: {fileID: 3781293125230155595}
+  - component: {fileID: 2921764316324400487}
   m_Layer: 14
   m_Name: Enemy1
   m_TagString: Monster1
@@ -19380,8 +19380,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1132, y: -719.1, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3717214760360896535}
   - {fileID: 8520815045854131198}
@@ -19459,7 +19459,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 6ccc7c51b797caa47804154dc50453b7, type: 3}
---- !u!114 &3781293125230155595
+--- !u!114 &2921764316324400487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19468,7 +19468,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3067828348525805207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d90905da2d4eb14cbb3474c224aabe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bdc1ae6bf9b2504f8f28c623339c351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitStates:
@@ -19476,22 +19476,16 @@ MonoBehaviour:
     Hp: 290
     Lv: 20
     ItemLv: 0
-    AttackSpeed: 40
+    AttackSpeed: 50
     MoveSpeed: 30
     Exp: 30
     Power: 20
     SkillCoolTime:
     - 1
-    - 0
-    - 0
-    - 0
   HpUIObj:
     Hp: {fileID: 0}
     HpFill: {fileID: 0}
     HpUI: {fileID: -55724200825437228, guid: 8b46f10c42811d740bd641ac6d93f37f, type: 3}
   EffectData: {fileID: 11400000, guid: 4ab8ec5a0b9e8ca4ab19cdabf123a04b, type: 2}
   NormalBulletPrefab: {fileID: -6461943451362811491, guid: 2d75f036e4f0167419baffa95cf0945e, type: 3}
-  TypeLayer:
-    serializedVersion: 2
-    m_Bits: 128
   itemData: {fileID: 11400000, guid: 3275c4752ec301e4c9a9c9a73d444620, type: 2}

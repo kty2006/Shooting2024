@@ -19393,7 +19393,7 @@ GameObject:
   - component: {fileID: 4032167468086831333}
   - component: {fileID: 948677376896749699}
   - component: {fileID: 6241155443832321913}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: AssianntGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29175,7 +29175,7 @@ GameObject:
   - component: {fileID: 1574161513964334444}
   - component: {fileID: 5275561579769828181}
   - component: {fileID: 1239726010191703931}
-  m_Layer: 8
+  m_Layer: 15
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -29355,7 +29355,7 @@ GameObject:
   - component: {fileID: 4346782132204629209}
   - component: {fileID: 8017688383268504770}
   - component: {fileID: 5655438437146296057}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: AssianntGun2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29514,7 +29514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fb37bd88616a41f987b9c5503f28c3e6, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fb37bd88616a41f987b9c5503f28c3e6, type: 3}
       propertyPath: m_TagString
@@ -29622,7 +29622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fb37bd88616a41f987b9c5503f28c3e6, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fb37bd88616a41f987b9c5503f28c3e6, type: 3}
       propertyPath: m_TagString

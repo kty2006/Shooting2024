@@ -20,6 +20,7 @@ TagManager:
   - GodTimeItem
   - HpUpItem
   - Wing
+  - Monster4
   layers:
   - Default
   - TransparentFX
@@ -36,7 +37,7 @@ TagManager:
   - NormalHitEffect
   - Item
   - Enemy
-  - 
+  - Unit
   - 
   - 
   - 

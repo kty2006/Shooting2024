@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
-
+//공격 유형에 따라 묶는게 더 좋을거 같음 ex)여러방향으로 나가는 공격 ,한방향으로 나가는 공격
+//공격 유형을 인터페이스를 통해 묶어서 사용 ex)여러방향으로 나가는 공격,특수 공격,공격 공통 작업
 public class NormalAttack : IAttack
 {
     public Unit Unit;
@@ -13,11 +15,10 @@ public class NormalAttack : IAttack
     public int index;
     public virtual void Attack()
     {
-        Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
-        Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
         AttackTimeAgent = new(Unit.unitStates.SkillCoolTime[index], (timeAgent) => IsCheck = false, (timeAgent) => { }, (timeAgent) => IsCheck = true);
     }
 }
+
 public class PlayerNormalAttack : NormalAttack
 {
     public PlayerNormalAttack(Unit unit, int times, int index)
@@ -29,10 +30,12 @@ public class PlayerNormalAttack : NormalAttack
     public override void Attack()
     {
         base.Attack();
+        Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
+        Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
         if (Input.GetKey(KeyCode.Space) && IsCheck)
         {
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
-            ObjectPool.Instance.Pooling(Unit.transform.position, Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
+            ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
         }
     }
 }
@@ -52,12 +55,14 @@ public class PlayerAssiantAttack : NormalAttack
     public override void Attack()
     {
         base.Attack();
+        Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
+        Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
         if (Input.GetKey(KeyCode.Space) && IsCheck)
         {
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
             for (int i = 0; i < states.ItemLv; i++)
             {
-                ObjectPool.Instance.Pooling(AssianntGun[i].transform.position, Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
+                ObjectPool.Instance.Pooling(AssianntGun[i].transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
             }
         }
     }
@@ -77,6 +82,8 @@ public class PlayerBoomAttack : NormalAttack
     public override void Attack()
     {
         base.Attack();
+        Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
+        Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
         if (IsCheck)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -88,7 +95,7 @@ public class PlayerBoomAttack : NormalAttack
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 TimerSystem.Instance.AddTimer(AttackTimeAgent);
-                ObjectPool.Instance.Pooling(Unit.transform.position, Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
+                ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
                 times = 0;
                 EffectPlay();
             }
@@ -108,6 +115,7 @@ public class PlayerBoomAttack : NormalAttack
         }
     }
 }
+
 public class NormalEnemyAttack : NormalAttack
 {
     public NormalEnemyAttack(Unit unit, int times, int index)
@@ -121,12 +129,80 @@ public class NormalEnemyAttack : NormalAttack
         if (IsCheck)
         {
             base.Attack();
+            Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
+            Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
-            ObjectPool.Instance.Pooling(Unit.transform.position, Unit.transform.rotation, Unit.NormalBulletPrefab.gameObject);
+            if(ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, -30), Unit.transform.rotation, Unit.NormalBulletPrefab.gameObject).
+                TryGetComponent(out Bullet bullet))
+            { bullet.IsCheck = true; bullet.DirCheck(); }
         }
     }
 }
 
+public class LaserEnemyAttack : NormalAttack
+{
+    private GameObject laserObj;
+    public LaserEnemyAttack(Unit unit, int times, int index)
+    {
+        this.Unit = unit;
+        this.times = times;
+        this.index = index;
+        laserObj = Unit.EffectData.CreateLaserEffect(Unit.transform.position + new Vector3(0, 0, -20), Quaternion.Euler(0, 180, 0));
+        laserObj.transform.parent = Unit.transform;
+    }
+    public override void Attack()
+    {
+        if (IsCheck && laserObj.TryGetComponent(out LaserObj laser) && laser.EnemyLaserCoroutine == null)
+        {
+            base.Attack();
+            laser.Power = Unit.unitStates.Power * times * 0.002f;
+            laser.EnemyLaserCoroutine = laser.StartCoroutine(laser.MonsterDuringLaser());
+            //TimerSystem.Instance.AddTimer(AttackTimeAgent);
+        }
+
+    }
+}
+
+public class SectorEnemyShooter : NormalAttack
+{
+    public SectorEnemyShooter(Unit unit, int times, int index)
+    {
+        this.Unit = unit;
+        this.times = times;
+        this.index = index;
+    }
+    public override void Attack()
+    {
+        if (IsCheck)
+        {
+            base.Attack();
+            Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
+            Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
+            TimerSystem.Instance.AddTimer(AttackTimeAgent);
+            int sign = 1;
+            int count = 0;
+            int angleProduct = 1;
+            ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, -30), Quaternion.identity, Unit.NormalBulletPrefab.gameObject);
+            for (int i = 0; i < 4; i++)
+            {
+                count += 1;
+                if ((count+1) % 2 == 0 && count != 1)
+                {
+                    angleProduct += 1;
+                    Debug.Log(count);
+                    Debug.Log("총알");
+                }
+                ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, -30), Quaternion.Euler(0, sign * 10 * angleProduct, 0), Unit.NormalBulletPrefab.gameObject);
+                sign = sign switch
+                {
+                    1 => -1,
+                    -1 => 1
+                };
+            }
+
+        }
+    }
+}
 
 public class DragonAttack : IAttack
 {
@@ -137,10 +213,10 @@ public class DragonAttack : IAttack
     {
         if (dragon.DragonSkill == null)
         {
-            dragon.DragonSkill = dragon.StartCoroutine(AttackDelay());
-            Debug.Log(this);
-            dragon.ChangePattern(dragon.BossType.Pattern[dragon.BossType.PatternOrder]);
+            Debug.Log("실행");
             currentTime = 0;
+            dragon.DragonSkill = dragon.StartCoroutine(AttackDelay());
+            dragon.ChangePattern(dragon.BossType.Pattern[dragon.BossType.PatternOrder]);
         }
     }
     public virtual IEnumerator AttackDelay()
@@ -160,6 +236,7 @@ public class DragonFire : DragonAttack
 
     public override void Attack()
     {
+        Debug.Log("로그");
         base.Attack();
     }
 
@@ -170,6 +247,7 @@ public class DragonFire : DragonAttack
         FireEffect.transform.parent = dragon.FirePos.transform;
         FireEffect.transform.localScale = new Vector3(25, 30, 20);
         //FireEffect.transform.position = dragon.FirePos.transform.position;
+        FireEffect.transform.rotation = dragon.FirePos.rotation;
         while (currentTime < maxTime)
         {
             dragon.Animator.SetBool("Fire", true);
@@ -181,6 +259,7 @@ public class DragonFire : DragonAttack
                     dragon.Animator.SetBool("Fire", false);
                     yield return new WaitForSeconds(1);
                     FireEffect.Stop();
+                    Debug.Log($"{currentTime}:{maxTime}");
                     currentTime += 1;
                 }
             }

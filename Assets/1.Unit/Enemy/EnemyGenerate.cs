@@ -6,9 +6,7 @@ public class EnemyGenerate : MonoBehaviour
 {
     public float MinX, MaxX, ClampY, ClampZ;
     public Transform EnemyStart;
-    public List<Enemy> Enemies = new();
-    public LayerMask TypeLayer;
-    public Dictionary<LayerMask, Enemy> InsEnemies = new Dictionary<LayerMask, Enemy>();
+    public List<GameObject> Enemies = new();
     public void Start()
     {
         StartCoroutine(Generate());
@@ -16,20 +14,33 @@ public class EnemyGenerate : MonoBehaviour
     private IEnumerator Generate()
     {
         GameObject generateObj;
-        foreach (Enemy enemy in Enemies)
+        foreach (var enemy in Enemies)
         {
             ObjectPool.Instance.AddPool(enemy.gameObject.tag);
-            InsEnemies.Add(enemy.TypeLayer, enemy);
         }
         while (true)
         {
-            EnemyStart.position = new Vector3(Random.Range(MinX, MaxX), ClampY, ClampZ);
-            EnemyStart.rotation = Quaternion.Euler(0, InsEnemies[TypeLayer].CheckRotate(EnemyStart.position, Player.Instance.transform.position), 0);
-            generateObj = ObjectPool.Instance.Pooling(EnemyStart.position, EnemyStart.rotation, InsEnemies[TypeLayer].gameObject);
-            if (generateObj.transform.parent != transform)
-                generateObj.transform.parent = transform;
-            EnemyController.Instance.ReSetting();
-            yield return Util.Delay05;
+            foreach (var enemy in Enemies)
+            {
+                EnemyStart.position = new Vector3(Random.Range(MinX, MaxX), ClampY, ClampZ);
+                if (enemy.CompareTag("Monster1") && enemy.CompareTag("Monster4"))
+                    EnemyStart.rotation = Quaternion.Euler(0, CheckRotate(EnemyStart.position, Player.Instance.transform.position), 0);
+                else
+                    EnemyStart.rotation = Quaternion.Euler(0, 180, 0);
+                generateObj = ObjectPool.Instance.Pooling(EnemyStart.position, EnemyStart.rotation, enemy.gameObject.gameObject);
+                if (generateObj.transform.parent != transform)
+                    generateObj.transform.parent = transform;
+                EnemyController.Instance.ReSetting();
+                yield return Util.Delay05;
+            }
         }
+    }
+
+    public float CheckRotate(Vector3 startPos, Vector3 targetPos)
+    {
+        Vector3 dir; //계속 생성되지만 다른데서 사용하지 않기 때문에 
+        dir = targetPos - startPos;
+        dir.Normalize();
+        return Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
     }
 }

@@ -9602,6 +9602,7 @@ GameObject:
   - component: {fileID: 1381955313997435833}
   - component: {fileID: 3297588288461838220}
   - component: {fileID: 5447910604935005445}
+  - component: {fileID: 7143338635416555324}
   m_Layer: 0
   m_Name: DragonFire
   m_TagString: Untagged
@@ -14442,3 +14443,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7143338635416555324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9057402067081010012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9252f96bf372984478cc1e5514b975b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 10

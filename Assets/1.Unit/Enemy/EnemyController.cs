@@ -9,6 +9,7 @@ public class EnemyController : MonoSingleTone<EnemyController>
 
     public void Update()
     {
+        ReSetting();
         foreach (Enemy enemy in Enemies)
         {
             enemy.MoveType.Move();

@@ -65,6 +65,9 @@ public abstract class Unit : MonoBehaviour, IVisitElement
 
     protected virtual void Update()
     {
+        HpUI();
+        if (unitStates.Hp <= 0)
+            Death();
     }
     public virtual void ChangeType(IAttack attack)
     {
@@ -101,14 +104,8 @@ public abstract class Unit : MonoBehaviour, IVisitElement
             currentHitBullet = bullet;
             unitStates.Hp -= currentHitBullet.Power;
             HitEffectPlay();
-            HpUI();
-            if (unitStates.Hp <= 0)
-                Death();
         }
     }
-    //public virtual void OnCollisionEnter(Collision collision)
-    //{
-    //}
     public virtual void Death()
     {
         if (gameObject.layer != 8) //적유닛이 죽을때 플레이어에게 경험치 적용 적유닛에서 플레이어에 접근하는것이기 때문에 객체지향 위반 
@@ -138,7 +135,7 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     }
     public virtual void HpUI()
     {
-        HpUIObj.Hp.text = $"HP {unitStates.Hp}";
+        HpUIObj.Hp.text = $"HP {((int)unitStates.Hp)}";
         HpUIObj.HpFill.fillAmount = unitStates.Hp / unitStates.MaxHp;
     }
 

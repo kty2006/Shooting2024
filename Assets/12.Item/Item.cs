@@ -27,7 +27,7 @@ public class Item : MonoBehaviour
             ItemType.HpUp => (Player unit) => { unit.GetStates().Hp = unit.GetStates().MaxHp; unit.HpUI(); }
             ,
 
-            ItemType.GodTime => (Player unit) => { unit.GodTime(Color.yellow, 7); }
+            ItemType.GodTime => (Player unit) => { StartCoroutine(unit.GodTime(Color.clear, 7)); }
             ,
 
             ItemType.Bomb => (Player unit) => { Instantiate(unit.Bomb, unit.transform.position, Quaternion.identity); }
