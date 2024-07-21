@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+    public Camera Camera;
     public Transform PlayerViewPos;
     public Vector3 MaxLimit, MinLimit;
     public int flowCameraSpeed;
@@ -24,5 +25,11 @@ public class CameraMove : MonoBehaviour
         float x = Mathf.Clamp(transform.position.x, MinLimit.x, MaxLimit.x);
         float z = Mathf.Clamp(transform.position.z, MinLimit.z, MaxLimit.z);
         transform.position = new Vector3(x, transform.position.y, z);
+    }
+
+
+    public void CameraFlag()
+    {
+        Camera.clearFlags = CameraClearFlags.SolidColor;
     }
 }

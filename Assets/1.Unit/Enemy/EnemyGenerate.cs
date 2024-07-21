@@ -7,7 +7,7 @@ public class EnemyGenerate : MonoBehaviour
     public float MinX, MaxX, ClampY, ClampZ;
     public Transform EnemyStart;
     public List<GameObject> Enemies = new();
-    public void Start()
+    public void OnEnable()
     {
         StartCoroutine(Generate());
     }

@@ -9604,7 +9604,7 @@ GameObject:
   - component: {fileID: 5447910604935005445}
   - component: {fileID: 7143338635416555324}
   - component: {fileID: 4162918224856740884}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DragonFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}

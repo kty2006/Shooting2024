@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4509344612094933831}
   - component: {fileID: 3540170005416648017}
   - component: {fileID: 5937770813517344837}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RedTornadoWithWind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4972,6 +4972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 60
   time: 5
+  Power: 0
 --- !u!65 &5937770813517344837
 BoxCollider:
   m_ObjectHideFlags: 0

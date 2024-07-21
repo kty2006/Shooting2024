@@ -17,6 +17,7 @@ public class Player : Unit
     public KillCount killCount = new();
     public GameObject[] AssiantGuns;
     public Vector3 MaxLimit, MinLimit;
+    public IEnumerator godTime;
 
     public void Awake()
     {
@@ -71,7 +72,10 @@ public class Player : Unit
 
     public override void Death()
     {
-        gameObject.SetActive(false);
+        if (unitStates.Hp <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void Limit()
@@ -119,6 +123,8 @@ public class Player : Unit
         //    (timeAgent) => { mesh.material.color = Color.white; collider.enabled = true; });
         //TimerSystem.Instance.AddTimer(godTime);
     }
+
+    //public void 
 
     public override void HitAction()
     {

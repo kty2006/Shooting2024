@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class GameManager : MonoSingleTone<GameManager>
 {
+    public bool GameReStart = false;
+    public bool Stage1Clear = false;
     public bool GameStart;
     public bool BossGameStart;
     public float Progress = 0;
     public SequenceExecutor boss1Sequence;
+    public SequenceExecutor boss2Sequence;
+    public SequenceExecutor reStartSequence;
     private void OnEnable()
     {
 
         StartCoroutine(Boss1Sequence());
+        StartCoroutine(ReStartMapSequence());
     }
 
     public void Start()
@@ -52,11 +57,51 @@ public class GameManager : MonoSingleTone<GameManager>
         Collider[] AllObj = FindObjectsOfType<Collider>();
         foreach (var obj in AllObj)
         {
-           if(obj.transform.gameObject.layer == 14 || obj.transform.gameObject.layer == 6)
+            if (obj.transform.gameObject.layer == 14 || obj.transform.gameObject.layer == 6 || obj.transform.gameObject.layer == 12)
             {
                 ObjectPool.Instance.EnqueuePool(obj.gameObject);
             }
         }
         StartCoroutine(boss1Sequence.PlaySequence(() => { BossGameStart = true; Debug.Log("º¸½ºÀü"); }));
+    }
+
+    public IEnumerator ReStartMapSequence()
+    {
+        yield return new WaitUntil(() => GameReStart);
+        CameraShake.Instance.Shake(2, 6f);
+        StopCoroutine(BossController.Instance.Bosscoroutine);
+        Collider[] AllObj = FindObjectsOfType<Collider>();
+        foreach (var obj in AllObj)
+        {
+            if (obj.transform.gameObject.layer == 6 || obj.transform.gameObject.layer == 12)
+            {
+                Destroy(obj.gameObject);
+            }
+        }
+        GameStart = false;
+        BossGameStart = false;
+        StartCoroutine(reStartSequence.PlaySequence(() => { GameStartSequence(); Progress = 0; GameStart = true; Stage1Clear = true; }));
+        StartCoroutine(Boss2Sequence());
+    }
+
+    public IEnumerator Boss2Sequence()
+    {
+        yield return new WaitUntil(() => Progress >= 120 && Stage1Clear);
+        CameraShake.Instance.Shake(8f, 6f);
+        Collider[] AllObj = FindObjectsOfType<Collider>();
+        foreach (var obj in AllObj)
+        {
+            if (obj.transform.gameObject.layer == 14 || obj.transform.gameObject.layer == 6 || obj.transform.gameObject.layer == 12)
+            {
+                ObjectPool.Instance.EnqueuePool(obj.gameObject);
+            }
+        }
+        StartCoroutine(boss2Sequence.PlaySequence(() =>
+        {
+            BossController.Instance.waittTime = 7;
+            BossController.Instance.startIndex = 2;
+            BossController.Instance.EndIndex = 3;
+            BossGameStart = true;
+        }));
     }
 }

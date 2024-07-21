@@ -32,7 +32,7 @@ public class PlayerNormalAttack : NormalAttack
         base.Attack();
         Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
         Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
-        if (Input.GetKey(KeyCode.Space) && IsCheck)
+        if (Input.GetKey(KeyCode.X) && IsCheck)
         {
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
             ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
@@ -57,7 +57,7 @@ public class PlayerAssiantAttack : NormalAttack
         base.Attack();
         Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
         Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
-        if (Input.GetKey(KeyCode.Space) && IsCheck)
+        if (Input.GetKey(KeyCode.X) && IsCheck)
         {
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
             for (int i = 0; i < states.ItemLv; i++)
@@ -86,13 +86,13 @@ public class PlayerBoomAttack : NormalAttack
         Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
         if (IsCheck)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.X))
             {
                 times = Mathf.Clamp((times + Time.deltaTime * 10), 1, 200);
                 Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
                 EffectPlay();
             }
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.X))
             {
                 TimerSystem.Instance.AddTimer(AttackTimeAgent);
                 ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
@@ -211,7 +211,6 @@ public class DragonAttack : IAttack
     {
         if (dragon.DragonSkill == null)
         {
-            Debug.Log("실행");
             currentTime = 0;
             dragon.DragonSkill = dragon.StartCoroutine(AttackDelay());
             dragon.ChangePattern(dragon.BossType.Pattern[dragon.BossType.PatternOrder]);
@@ -234,7 +233,6 @@ public class DragonFire : DragonAttack
 
     public override void Attack()
     {
-        Debug.Log("로그");
         base.Attack();
     }
 
@@ -421,5 +419,32 @@ public class DragonTornado : DragonAttack
                 -1 => 1
             };
         }
+    }
+}
+
+
+public class Boss2Attack : IAttack
+{
+    public Boss2 boss;
+    public string aniName;
+    public virtual void Attack()
+    {
+        boss.Animator.SetTrigger(aniName);
+        boss.ChangePattern(boss.BossType.Pattern[boss.BossType.PatternOrder]);
+    }
+}
+
+public class Boss2Patternk : Boss2Attack
+{
+    public Boss2Patternk(Boss2 boss,string aniName)
+    {
+        this.boss = boss;
+        this.aniName = aniName;
+        Debug.Log(aniName);
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
     }
 }

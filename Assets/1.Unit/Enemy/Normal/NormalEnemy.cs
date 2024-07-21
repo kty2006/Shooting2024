@@ -28,10 +28,12 @@ public class NormalEnemy : Enemy
 
     public override void Death()
     {
-        base.Death();
-        DropItem(1);
-        EnqueuEnemy();
-        Debug.Log("hpuiÁ×À½");
+        if (unitStates.Hp <= 0)
+        {
+            Player.Instance.KillCountUp(this);
+            DropItem(1);
+            EnqueuEnemy();
+        }
     }
 
     public IEnumerator EnemyTime()

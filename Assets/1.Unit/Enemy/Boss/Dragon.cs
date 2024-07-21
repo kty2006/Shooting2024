@@ -34,10 +34,6 @@ public class Dragon : Enemy
         ChangeType(BossType.Pattern[BossType.PatternOrder]);
     }
 
-    public void InsWaring(Transform pos)
-    {
-        Instantiate(WaringObj, pos.position, pos.rotation);
-    }
     public override void HpUI()
     {
         HpUIObj.Hp.text = $"HP {((int)onlyUnitStates.Hp)}";
@@ -63,7 +59,14 @@ public class Dragon : Enemy
 
     public override void Death()
     {
-        base.Death();
-        Debug.Log("hpuiÁ×À½");
+        if (onlyUnitStates.Hp <= 0)
+        {
+            Player.Instance.KillCountUp(this);
+            GameManager.Instance.GameReStart = true;
+        }
+    }
+    public void InsWaring(Transform pos)
+    {
+        Instantiate(WaringObj, pos.position, pos.rotation);
     }
 }

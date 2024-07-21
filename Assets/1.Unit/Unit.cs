@@ -102,7 +102,6 @@ public abstract class Unit : MonoBehaviour, IVisitElement
         {
             currentHitBullet = bullet;
             CountHp(currentHitBullet.Power);
-            Debug.Log("맞음");
             HitEffectPlay();
         }
     }
@@ -114,13 +113,7 @@ public abstract class Unit : MonoBehaviour, IVisitElement
 
     public virtual void Death()
     {
-        if (unitStates.Hp <= 0)
-        {
-            if (gameObject.layer != 8) //적유닛이 죽을때 플레이어에게 경험치 적용 적유닛에서 플레이어에 접근하는것이기 때문에 객체지향 위반 
-            {
-                Player.Instance.KillCountUp(this);
-            }
-        }
+        
     }
 
     [ContextMenu("LvUp")]

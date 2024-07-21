@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class BossController : MonoSingleTone<BossController>
 {
     public List<Enemy> Enemies = new();
     public Transform StartPos;
-    
-
-    public void Start()
+    public int waittTime = 3;
+    public int EndIndex = 2;
+    public int startIndex = 0;
+    public Coroutine Bosscoroutine;
+    public void OnEnable()
     {
         //InstantiateBoss();
-        StartCoroutine(BossAction());
+        Bosscoroutine = StartCoroutine(BossAction());
     }
 
     //public void InstantiateBoss()
@@ -27,11 +29,16 @@ public class BossController : MonoBehaviour
         yield return new WaitUntil(() => GameManager.Instance.BossGameStart);
         while (true)
         {
-            foreach (Enemy enemy in Enemies)
+            for (int i = startIndex; i < EndIndex; i++)
             {
-                enemy.CurrentWeapon.Attack();
+                Enemies[i].CurrentWeapon.Attack();
+                Debug.Log("보스공격");
             }
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(waittTime);
+            //foreach (Enemy enemy in Enemies)
+            //{
+            //    enemy.CurrentWeapon.Attack();
+            //}
         }
     }
 }
