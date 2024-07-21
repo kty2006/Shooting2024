@@ -967,7 +967,8 @@ GameObject:
   - component: {fileID: 9006853320000382118}
   - component: {fileID: 7217104090929094310}
   - component: {fileID: 4937684755687619773}
-  m_Layer: 15
+  - component: {fileID: 2441866650287925440}
+  m_Layer: 14
   m_Name: DragonBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1125,9 +1126,6 @@ MonoBehaviour:
     HpUI: {fileID: 0}
   EffectData: {fileID: 11400000, guid: 4ab8ec5a0b9e8ca4ab19cdabf123a04b, type: 2}
   NormalBulletPrefab: {fileID: 8207323004021283840, guid: fda552cf54bf2ea45b06860aff6108c8, type: 3}
-  TypeLayer:
-    serializedVersion: 2
-    m_Bits: 0
   itemData: {fileID: 11400000, guid: 3275c4752ec301e4c9a9c9a73d444620, type: 2}
   BossType:
     PatternOrder: 0
@@ -1137,6 +1135,27 @@ MonoBehaviour:
   TornadoPos: {fileID: 0}
   Animator: {fileID: 7217104090929094310}
   WaringObj: {fileID: 2414601975202461822, guid: 5c30cff8f6a617245bb7ab30fd1e0b3c, type: 3}
+--- !u!65 &2441866650287925440
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252293335021835755}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 4, z: 10}
+  m_Center: {x: 0.00000011920929, y: 1.4999986, z: 1.3000002}
 --- !u!1 &8502334430404903402
 GameObject:
   m_ObjectHideFlags: 0

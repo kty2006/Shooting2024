@@ -44,7 +44,7 @@ public class HpUIObj
     public Image HpUI;
 }
 
-public abstract class Unit : MonoBehaviour, IVisitElement 
+public abstract class Unit : MonoBehaviour, IVisitElement
 //unit에서 플레이어 적을 자식으로 두니까 적에서 일반/보스 또 나누어질때 구조가 복잡해진다고 느껴서 unit을 만들지 않고
 //플레이어, 적을 만들고 공통적인 요소는 그냥 클래스를 만들던가 인터페이스로 분리해 사용하는것이 더 좋을거 같다.
 {
@@ -66,8 +66,7 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     protected virtual void Update()
     {
         HpUI();
-        if (unitStates.Hp <= 0)
-            Death();
+        Death();
     }
     public virtual void ChangeType(IAttack attack)
     {
@@ -97,20 +96,30 @@ public abstract class Unit : MonoBehaviour, IVisitElement
         ObjectPool.Instance.AddPool(NormalBulletPrefab.gameObject.tag);
     }
 
-    public void OnTriggerEnter(Collider collision)
+    public virtual void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.TryGetComponent(out Bullet bullet))
         {
             currentHitBullet = bullet;
-            unitStates.Hp -= currentHitBullet.Power;
+            CountHp(currentHitBullet.Power);
+            Debug.Log("맞음");
             HitEffectPlay();
         }
     }
+
+    public virtual void CountHp(float power)
+    {
+        unitStates.Hp -= power;
+    }
+
     public virtual void Death()
     {
-        if (gameObject.layer != 8) //적유닛이 죽을때 플레이어에게 경험치 적용 적유닛에서 플레이어에 접근하는것이기 때문에 객체지향 위반 
+        if (unitStates.Hp <= 0)
         {
-            Player.Instance.KillCountUp(this);
+            if (gameObject.layer != 8) //적유닛이 죽을때 플레이어에게 경험치 적용 적유닛에서 플레이어에 접근하는것이기 때문에 객체지향 위반 
+            {
+                Player.Instance.KillCountUp(this);
+            }
         }
     }
 
@@ -118,9 +127,9 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     public void LvUp() // ContexttMenu사용 때문에 따로 스텟 클래스에서 빼서 사용
     {
         unitStates.MaxHp = 90;
-        unitStates.MaxHp += Mathf.Clamp(10 * unitStates.Lv, 0, 200);
+        unitStates.MaxHp += 10 * unitStates.Lv;
         unitStates.Hp = unitStates.MaxHp;
-        unitStates.Power = Mathf.Clamp(unitStates.Lv, 0, 20);
+        unitStates.Power = unitStates.Lv;
         HpUI();
     }
 

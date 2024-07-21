@@ -28,9 +28,9 @@ public class NormalEnemy : Enemy
 
     public override void Death()
     {
+        base.Death();
         DropItem(1);
         EnqueuEnemy();
-        base.Death();
         Debug.Log("hpuiÁ×À½");
     }
 

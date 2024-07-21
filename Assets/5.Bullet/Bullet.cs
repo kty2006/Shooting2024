@@ -33,8 +33,9 @@ public class Bullet : MonoBehaviour
         if (other.transform.TryGetComponent(out Player unit))
         {
             CameraShake.Instance.Shake(0.25f, 0.6f);
-            StartCoroutine(unit.GodTime(Color.clear, 1));
             UIManager.Instance.HitCheck();
+            StartCoroutine(unit.GodTime(Color.clear, 1));
+            Debug.Log("갓타임");
             //Accept(EffectCommand.PlayerBoomHit); //EffectCommand를 담든 변수를 하나 만들고 무기가 바뀔때마다 hit파티클이 바뀌도록 설정 할 예정
         }
     }

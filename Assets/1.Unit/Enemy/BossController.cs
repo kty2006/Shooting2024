@@ -24,6 +24,7 @@ public class BossController : MonoBehaviour
 
     public IEnumerator BossAction()
     {
+        yield return new WaitUntil(() => GameManager.Instance.BossGameStart);
         while (true)
         {
             foreach (Enemy enemy in Enemies)

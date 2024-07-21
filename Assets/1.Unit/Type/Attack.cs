@@ -132,7 +132,7 @@ public class NormalEnemyAttack : NormalAttack
             Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
             Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
-            if(ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, -30), Unit.transform.rotation, Unit.NormalBulletPrefab.gameObject).
+            if (ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, -30), Unit.transform.rotation, Unit.NormalBulletPrefab.gameObject).
                 TryGetComponent(out Bullet bullet))
             { bullet.IsCheck = true; bullet.DirCheck(); }
         }
@@ -186,11 +186,9 @@ public class SectorEnemyShooter : NormalAttack
             for (int i = 0; i < 4; i++)
             {
                 count += 1;
-                if ((count+1) % 2 == 0 && count != 1)
+                if ((count + 1) % 2 == 0 && count != 1)
                 {
                     angleProduct += 1;
-                    Debug.Log(count);
-                    Debug.Log("ÃÑ¾Ë");
                 }
                 ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, -30), Quaternion.Euler(0, sign * 10 * angleProduct, 0), Unit.NormalBulletPrefab.gameObject);
                 sign = sign switch
@@ -246,6 +244,8 @@ public class DragonFire : DragonAttack
             dragon.EffectData.CreateFire(dragon.FirePos.transform.position, Quaternion.Euler(0, 180, 0));
         FireEffect.transform.parent = dragon.FirePos.transform;
         FireEffect.transform.localScale = new Vector3(25, 30, 20);
+        if (FireEffect.TryGetComponent(out Fire fire))
+            fire.Power = dragon.unitStates.Power * 0.2f;
         //FireEffect.transform.position = dragon.FirePos.transform.position;
         FireEffect.transform.rotation = dragon.FirePos.rotation;
         while (currentTime < maxTime)
@@ -297,7 +297,6 @@ public class DragonRush : DragonAttack
             time = 0;
             int count = Random.Range(1, dragon.RushPos.Count);
             dragon.InsWaring(dragon.RushPos[count]);
-            Debug.Log(count);
             while (time < 2)
             {
                 dragon.transform.position = Vector3.Lerp(dragon.transform.position, dragon.RushPos[count].position, 0.05f);
@@ -305,7 +304,6 @@ public class DragonRush : DragonAttack
                 time += Time.deltaTime;
                 yield return null;
             }
-            Debug.Log("move");
             dragon.Animator.SetBool("Rush", true);
             time = 0;
             yield return new WaitForSeconds(1);
@@ -409,10 +407,14 @@ public class DragonTornado : DragonAttack
     private void CreateTornado()
     {
         int sign = 1;
-        dragon.EffectData.CreateTornado(dragon.TornadoPos.position, Quaternion.Euler(-90, 0, 0));
+        ParticleSystem tornado = dragon.EffectData.CreateTornado(dragon.TornadoPos.position, Quaternion.Euler(-90, 0, 0));
+        if (tornado.TryGetComponent(out Tornado tornado1))
+            tornado1.Power = dragon.unitStates.Power * 0.2f;
         for (int i = 0; i < 2; i++)
         {
-            dragon.EffectData.CreateTornado(dragon.TornadoPos.position, Quaternion.Euler(-90, sign * 80, 0));
+            tornado = dragon.EffectData.CreateTornado(dragon.TornadoPos.position, Quaternion.Euler(-90, sign * 80, 0));
+            if (tornado.TryGetComponent(out Tornado tornado2))
+                tornado2.Power = dragon.unitStates.Power * 0.2f;
             sign = sign switch
             {
                 1 => -1,

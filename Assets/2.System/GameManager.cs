@@ -5,12 +5,19 @@ using UnityEngine;
 public class GameManager : MonoSingleTone<GameManager>
 {
     public bool GameStart;
+    public bool BossGameStart;
     public float Progress = 0;
-    private void Start()
+    public SequenceExecutor boss1Sequence;
+    private void OnEnable()
+    {
+
+        StartCoroutine(Boss1Sequence());
+    }
+
+    public void Start()
     {
         SettingType();
     }
-
     private void Update()
     {
         if (GameStart)
@@ -19,6 +26,7 @@ public class GameManager : MonoSingleTone<GameManager>
             Player.Instance.MoveType.Move();
             Player.Instance.CurrentWeapon.Attack();
             Player.Instance.SkillType.Skill();
+
         }
     }
 
@@ -36,4 +44,19 @@ public class GameManager : MonoSingleTone<GameManager>
         EnemyManager.SetActive(true);
     }
 
+
+    public IEnumerator Boss1Sequence()
+    {
+        yield return new WaitUntil(() => Progress >= 120);
+        CameraShake.Instance.Shake(14.5f, 6f);
+        Collider[] AllObj = FindObjectsOfType<Collider>();
+        foreach (var obj in AllObj)
+        {
+           if(obj.transform.gameObject.layer == 14 || obj.transform.gameObject.layer == 6)
+            {
+                ObjectPool.Instance.EnqueuePool(obj.gameObject);
+            }
+        }
+        StartCoroutine(boss1Sequence.PlaySequence(() => { BossGameStart = true; Debug.Log("º¸½ºÀü"); }));
+    }
 }

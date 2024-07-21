@@ -34,8 +34,8 @@ public class LaserObj : MonoBehaviour
                 {
                     unit.GetStates().Hp -= Power;
                     CameraShake.Instance.Shake(0.25f, 0.6f);
-                    StartCoroutine(unit.GodTime(Color.clear, 1));
                     UIManager.Instance.HitCheck();
+                    StartCoroutine(unit.GodTime(Color.clear, 1));
                 }
             }
         }

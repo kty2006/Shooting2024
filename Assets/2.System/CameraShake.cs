@@ -19,7 +19,7 @@ public class CameraShake : MonoSingleTone<CameraShake>
 {
     public List<ShakeData> shakeDatas = new();
     public Vector3 CameraPos;
-    private void Update()
+    private void LateUpdate()
     {
         CameraPos = transform.position;
         if (shakeDatas.Count == 0)

@@ -122,7 +122,6 @@ public class Player : Unit
 
     public override void HitAction()
     {
-        GodTime(Random.ColorHSV(), 1);
     }
 
     public void ChangeWeapon(IAttack attack)
