@@ -33,6 +33,8 @@ public class NormalEnemy : Enemy
             Player.Instance.KillCountUp(this);
             DropItem(1);
             EnqueuEnemy();
+            death = true;
+            GameManager.Score += 20;
         }
     }
 

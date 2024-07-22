@@ -53,7 +53,10 @@ public class Boss2 : Enemy
         if (unitStates.Hp <= 0)
         {
             Player.Instance.KillCountUp(this);
-            GameManager.Instance.GameReStart = true;
+            GameManager.Instance.Stage2Clear = true;
+            death = true;
+            BossController.Instance.StopBossCoroutine = true;
+            GameManager.Score += 100;
         }
     }
 }

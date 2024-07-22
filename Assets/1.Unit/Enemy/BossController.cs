@@ -10,9 +10,11 @@ public class BossController : MonoSingleTone<BossController>
     public int EndIndex = 2;
     public int startIndex = 0;
     public Coroutine Bosscoroutine;
+    public bool StopBossCoroutine;
     public void OnEnable()
     {
         //InstantiateBoss();
+        StopBossCoroutine = false;
         Bosscoroutine = StartCoroutine(BossAction());
     }
 
@@ -27,7 +29,7 @@ public class BossController : MonoSingleTone<BossController>
     public IEnumerator BossAction()
     {
         yield return new WaitUntil(() => GameManager.Instance.BossGameStart);
-        while (true)
+        while (!StopBossCoroutine)
         {
             for (int i = startIndex; i < EndIndex; i++)
             {

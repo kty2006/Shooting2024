@@ -63,6 +63,9 @@ public class Dragon : Enemy
         {
             Player.Instance.KillCountUp(this);
             GameManager.Instance.GameReStart = true;
+            death = true;
+            BossController.Instance.StopBossCoroutine = true;
+            GameManager.Score += 100;
         }
     }
     public void InsWaring(Transform pos)

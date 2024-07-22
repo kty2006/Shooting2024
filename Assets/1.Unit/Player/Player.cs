@@ -75,6 +75,7 @@ public class Player : Unit
         if (unitStates.Hp <= 0)
         {
             gameObject.SetActive(false);
+            death = true;
         }
     }
 

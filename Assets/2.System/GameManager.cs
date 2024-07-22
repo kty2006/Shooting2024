@@ -1,22 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleTone<GameManager>
 {
+    public bool GameStart = false;
     public bool GameReStart = false;
     public bool Stage1Clear = false;
-    public bool GameStart;
-    public bool BossGameStart;
+    public bool Stage2Clear = false;
+    public bool BossGameStart = false;
     public float Progress = 0;
+    public static int Score;
     public SequenceExecutor boss1Sequence;
     public SequenceExecutor boss2Sequence;
     public SequenceExecutor reStartSequence;
+    public SequenceExecutor endSequence;
     private void OnEnable()
     {
 
         StartCoroutine(Boss1Sequence());
         StartCoroutine(ReStartMapSequence());
+        StartCoroutine(StageAllClear());
     }
 
     public void Start()
@@ -69,7 +74,7 @@ public class GameManager : MonoSingleTone<GameManager>
     {
         yield return new WaitUntil(() => GameReStart);
         CameraShake.Instance.Shake(2, 6f);
-        StopCoroutine(BossController.Instance.Bosscoroutine);
+        //StopCoroutine(BossController.Instance.Bosscoroutine);
         Collider[] AllObj = FindObjectsOfType<Collider>();
         foreach (var obj in AllObj)
         {
@@ -102,6 +107,16 @@ public class GameManager : MonoSingleTone<GameManager>
             BossController.Instance.startIndex = 2;
             BossController.Instance.EndIndex = 3;
             BossGameStart = true;
+        }));
+    }
+
+    public IEnumerator StageAllClear()
+    {
+        yield return new WaitUntil(() => Stage2Clear);
+        CameraShake.Instance.Shake(8f, 6f);
+        StartCoroutine(endSequence.PlaySequence(() =>
+        {
+            SceneManager.LoadScene(1);
         }));
     }
 }

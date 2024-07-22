@@ -20,7 +20,6 @@ public class States
     public int Exp;
     public float Power;
     public float[] SkillCoolTime;
-
     public void Set(float value) //스텟 사용할때마다 변경점이 있는지 확인
     {
         if (Power == value)
@@ -57,7 +56,7 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     public EffectData EffectData;
     public Bullet NormalBulletPrefab;
     protected Bullet currentHitBullet;
-
+    public bool death;
     protected virtual void Start()
     {
         BulletPool();
@@ -66,7 +65,9 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     protected virtual void Update()
     {
         HpUI();
-        Death();
+        if(!death)
+            Death();
+
     }
     public virtual void ChangeType(IAttack attack)
     {

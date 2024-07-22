@@ -9,6 +9,7 @@ public class AllDestory : MonoBehaviour
         if (ObjectPool.Instance.CheckPool(other.gameObject.tag))
         {
             ObjectPool.Instance.EnqueuePool(other.gameObject);
+            GameManager.Score += 20;
         }
     }
 }
