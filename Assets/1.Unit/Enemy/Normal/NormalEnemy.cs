@@ -58,6 +58,7 @@ public class NormalEnemy : Enemy
         HpUIObj.HpFill = bundle.GetComponentInChildren<Image>();
         HpUI();
         HpUIObj.HpUI.transform.parent = UIManager.Instance.transform;
+        HpUIObj.HpUI.gameObject.SetActive(true);
     }
 
     public void HpUIUpdate()

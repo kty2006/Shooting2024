@@ -18,7 +18,7 @@ public class UIManager : MonoSingleTone<UIManager>
     public void Start()
     {
         PlayButton.onClick.AddListener(() => StartCoroutine(executor.PlaySequence(() => { GameManager.Instance.GameStartSequence(); })));
-        RankButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        RankButton.onClick.AddListener(() => SceneSave.Instance.Scene(1));
     }
 
     public void Update()

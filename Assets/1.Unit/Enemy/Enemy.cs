@@ -12,10 +12,10 @@ public class Enemy : Unit
 {
     protected Image hpUI;
     public ItemData itemData;
-    protected override void Start()
-    {
-        base.Start();
-    }
+    //protected override void Start()
+    //{
+    //    base.Start();
+    //}
 
     public override void HitEffectPlay()
     {

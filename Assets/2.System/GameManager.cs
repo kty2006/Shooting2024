@@ -16,6 +16,7 @@ public class GameManager : MonoSingleTone<GameManager>
     public SequenceExecutor boss2Sequence;
     public SequenceExecutor reStartSequence;
     public SequenceExecutor endSequence;
+    
     private void OnEnable()
     {
 
@@ -39,6 +40,7 @@ public class GameManager : MonoSingleTone<GameManager>
 
         }
     }
+
 
     private void SettingType()
     {
@@ -74,7 +76,6 @@ public class GameManager : MonoSingleTone<GameManager>
     {
         yield return new WaitUntil(() => GameReStart);
         CameraShake.Instance.Shake(2, 6f);
-        //StopCoroutine(BossController.Instance.Bosscoroutine);
         Collider[] AllObj = FindObjectsOfType<Collider>();
         foreach (var obj in AllObj)
         {
@@ -116,7 +117,8 @@ public class GameManager : MonoSingleTone<GameManager>
         CameraShake.Instance.Shake(8f, 6f);
         StartCoroutine(endSequence.PlaySequence(() =>
         {
-            SceneManager.LoadScene(1);
+            SceneSave.Instance.Scene(1);
+            //SceneManager.LoadScene(1);
         }));
     }
 }

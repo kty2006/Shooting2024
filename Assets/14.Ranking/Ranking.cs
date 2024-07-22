@@ -18,7 +18,7 @@ public class Ranking : MonoSingleTone<Ranking>
         if (GameManager.Score.Equals(0)) { nameCheck.gameObject.SetActive(false); nickName.gameObject.SetActive(false); }
         LoadRanking();
         nameCheck.onClick.AddListener(() => {  AddScore(nickName.text); LoadRanking(); nameCheck.gameObject.SetActive(false); nickName.gameObject.SetActive(false); });
-        toHome.onClick.AddListener(() => SceneManager.LoadScene(0));
+        toHome.onClick.AddListener(() => SceneSave.Instance.Scene(0));
     }
 
     private void AddScore(string name)
