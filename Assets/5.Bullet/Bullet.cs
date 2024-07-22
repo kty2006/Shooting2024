@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     public void OnEnable()
     {
         DirCheck();
-        BulletTimeAgent = new(10, (timeAgent) => { }, (timeAgent) => transform.Translate(Dir * Time.fixedDeltaTime * Speed), (timeAgent) => ObjectPool.Instance.EnqueuePool(gameObject)); //이거 최적화
+        BulletTimeAgent = new(6, (timeAgent) => { }, (timeAgent) => transform.Translate(Dir * Time.fixedDeltaTime * Speed), (timeAgent) => ObjectPool.Instance.EnqueuePool(gameObject)); //이거 최적화
         TimerSystem.Instance.AddTimer(BulletTimeAgent);
         ObjectPool.Instance.AddPool(HitEffect.gameObject.tag);
     }

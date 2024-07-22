@@ -57,13 +57,33 @@ public class PlayerAssiantAttack : NormalAttack
         base.Attack();
         Unit.NormalBulletPrefab.Speed = Unit.unitStates.AttackSpeed;
         Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
+        int sign = 1;
+        int count = 0;
+        int angleProduct = 0;
         if (Input.GetKey(KeyCode.X) && IsCheck)
         {
             TimerSystem.Instance.AddTimer(AttackTimeAgent);
-            for (int i = 0; i < states.ItemLv; i++)
+            ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
+            for (int i = 1; i <= states.ItemLv; i++)
             {
-                ObjectPool.Instance.Pooling(AssianntGun[i].transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
+                if (i == 3)
+                {
+                    ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, -1 * (170 - 5), 0), Unit.NormalBulletPrefab.gameObject);
+                    angleProduct = -5;
+                }
+
+                ObjectPool.Instance.Pooling(Unit.transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, sign * 170 + angleProduct, 0), Unit.NormalBulletPrefab.gameObject);
+                sign = sign switch
+                {
+                    1 => -1,
+                    -1 => 1
+                };
             }
+
+            //for (int i = 0; i < states.ItemLv; i++)
+            //{
+            //    ObjectPool.Instance.Pooling(AssianntGun[i].transform.position + new Vector3(0, 0, 30), Quaternion.Euler(0, 180, 0), Unit.NormalBulletPrefab.gameObject);
+            //}
         }
     }
 }
@@ -71,11 +91,12 @@ public class PlayerAssiantAttack : NormalAttack
 public class PlayerBoomAttack : NormalAttack
 {
     ParticleSystem Charging;
+    States states;
     public PlayerBoomAttack(Unit unit, int index)
     {
         this.Unit = unit;
         this.index = index;
-        //ObjectPool.Instance.AddPool(Unit.EffectData.ChargingEffect.gameObject.tag);
+        states = Unit.GetStates();
         Charging = Unit.EffectData.CreateChargingEffect(unit.transform.position, Quaternion.identity);
     }
 
@@ -88,7 +109,7 @@ public class PlayerBoomAttack : NormalAttack
         {
             if (Input.GetKey(KeyCode.X))
             {
-                times = Mathf.Clamp((times + Time.deltaTime * 10), 1, 200);
+                times = Mathf.Clamp((times + Time.deltaTime * 30 * states.ItemLv), 1, 200);
                 Unit.NormalBulletPrefab.Power = Unit.unitStates.Power * times;
                 EffectPlay();
             }
@@ -155,7 +176,7 @@ public class LaserEnemyAttack : NormalAttack
         if (IsCheck && laserObj.TryGetComponent(out LaserObj laser) && laser.EnemyLaserCoroutine == null)
         {
             base.Attack();
-            laser.Power = Unit.unitStates.Power * times * 0.002f;
+            laser.Power = Unit.unitStates.Power * times * 0.07f;
             laser.EnemyLaserCoroutine = laser.StartCoroutine(laser.MonsterDuringLaser());
             //TimerSystem.Instance.AddTimer(AttackTimeAgent);
         }
@@ -436,7 +457,7 @@ public class Boss2Attack : IAttack
 
 public class Boss2Patternk : Boss2Attack
 {
-    public Boss2Patternk(Boss2 boss,string aniName)
+    public Boss2Patternk(Boss2 boss, string aniName)
     {
         this.boss = boss;
         this.aniName = aniName;

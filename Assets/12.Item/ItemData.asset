@@ -15,7 +15,6 @@ MonoBehaviour:
   Items:
   - {fileID: 3052584787001828897, guid: 4f71e6c97cafd2d40a9ba0660e279ede, type: 3}
   - {fileID: 3052584787001828897, guid: b4bc817981a67a248967899be9496688, type: 3}
+  - {fileID: 3052584787001828897, guid: d06c8e0f8d069df48bfc840077cb5a9c, type: 3}
   - {fileID: 3052584787001828897, guid: c4c21aeac504a414688c39742b8afc2c, type: 3}
   - {fileID: 3052584787001828897, guid: 7968cf739c5bac04db010b625777d8ed, type: 3}
-  - {fileID: 3052584787001828897, guid: d06c8e0f8d069df48bfc840077cb5a9c, type: 3}
-  ItemType: Item

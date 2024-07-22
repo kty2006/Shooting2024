@@ -13,6 +13,7 @@ public class NormalEnemy : Enemy
     {
         HpUISet();
         NormalEnemyTime = StartCoroutine(EnemyTime());
+        death = false;
     }
 
     protected override void Update()

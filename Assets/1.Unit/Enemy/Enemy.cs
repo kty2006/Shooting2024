@@ -33,7 +33,6 @@ public class Enemy : Unit
         if (count == 1)
         {
             int countn = Random.Range(0, itemData.Items.Count());
-            Debug.Log(countn);
             ObjectPool.Instance.Pooling(transform.position, Quaternion.identity, itemData.Items[countn].gameObject);
         }
         else

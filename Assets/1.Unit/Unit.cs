@@ -65,7 +65,7 @@ public abstract class Unit : MonoBehaviour, IVisitElement
     protected virtual void Update()
     {
         HpUI();
-        if(!death)
+        if (!death)
             Death();
 
     }
@@ -114,11 +114,11 @@ public abstract class Unit : MonoBehaviour, IVisitElement
 
     public virtual void Death()
     {
-        
+
     }
 
     [ContextMenu("LvUp")]
-    public void LvUp() // ContexttMenu사용 때문에 따로 스텟 클래스에서 빼서 사용
+    public virtual void LvUp() // ContexttMenu사용 때문에 따로 스텟 클래스에서 빼서 사용
     {
         unitStates.MaxHp = 90;
         unitStates.MaxHp += 10 * unitStates.Lv;

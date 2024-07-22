@@ -7,10 +7,12 @@ public class EnemyGenerate : MonoBehaviour
     public float MinX, MaxX, ClampY, ClampZ;
     public Transform EnemyStart;
     public List<GameObject> Enemies = new();
+    private int count = 5;
     public void OnEnable()
     {
         StartCoroutine(Generate());
     }
+
     private IEnumerator Generate()
     {
         GameObject generateObj;
@@ -31,7 +33,23 @@ public class EnemyGenerate : MonoBehaviour
                 if (generateObj.transform.parent != transform)
                     generateObj.transform.parent = transform;
                 EnemyController.Instance.ReSetting();
-                yield return Util.Delay05;
+                yield return new WaitForSeconds(count);
+            }
+            if(GameManager.Score == 200)
+            {
+                count = 4;
+            }
+            else if (GameManager.Score == 400)
+            {
+                count = 3;
+            }
+            else if (GameManager.Score == 800)
+            {
+                count = 2;
+            }
+            else if (GameManager.Score == 1600)
+            {
+                count = 1;
             }
         }
     }

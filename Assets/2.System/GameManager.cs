@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleTone<GameManager>
 {
+    public Dragon[] dragons;
     public bool GameStart = false;
     public bool GameReStart = false;
     public bool Stage1Clear = false;
@@ -16,7 +17,7 @@ public class GameManager : MonoSingleTone<GameManager>
     public SequenceExecutor boss2Sequence;
     public SequenceExecutor reStartSequence;
     public SequenceExecutor endSequence;
-    
+
     private void OnEnable()
     {
 
@@ -45,8 +46,8 @@ public class GameManager : MonoSingleTone<GameManager>
     private void SettingType()
     {
         Player.Instance.ChangeType(new PlayerMove(Player.Instance));
-        Player.Instance.ChangeType(new PlayerNormalAttack(Player.Instance, 50, 0));
-        Player.Instance.ChangeType(new LaserSkill(Player.Instance, 0.1f, 2));
+        Player.Instance.ChangeType(new PlayerNormalAttack(Player.Instance, 1, 0));
+        Player.Instance.ChangeType(new LaserSkill(Player.Instance, 1, 2));
     }
 
     public void GameStartSequence()
@@ -59,7 +60,7 @@ public class GameManager : MonoSingleTone<GameManager>
 
     public IEnumerator Boss1Sequence()
     {
-        yield return new WaitUntil(() => Progress >= 120);
+        yield return new WaitUntil(() => Progress >= 80);
         CameraShake.Instance.Shake(14.5f, 6f);
         Collider[] AllObj = FindObjectsOfType<Collider>();
         foreach (var obj in AllObj)
@@ -76,6 +77,8 @@ public class GameManager : MonoSingleTone<GameManager>
     {
         yield return new WaitUntil(() => GameReStart);
         CameraShake.Instance.Shake(2, 6f);
+        foreach (var obj in dragons)
+            if (obj.DragonSkill != null) { StopCoroutine(obj.DragonSkill); }
         Collider[] AllObj = FindObjectsOfType<Collider>();
         foreach (var obj in AllObj)
         {
@@ -92,7 +95,7 @@ public class GameManager : MonoSingleTone<GameManager>
 
     public IEnumerator Boss2Sequence()
     {
-        yield return new WaitUntil(() => Progress >= 120 && Stage1Clear);
+        yield return new WaitUntil(() => Progress >= 80 && Stage1Clear);
         CameraShake.Instance.Shake(8f, 6f);
         Collider[] AllObj = FindObjectsOfType<Collider>();
         foreach (var obj in AllObj)

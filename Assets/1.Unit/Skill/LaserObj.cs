@@ -27,7 +27,7 @@ public class LaserObj : MonoBehaviour
     {
         if (EnemyLaserCoroutine != null)
         {
-            hit = Physics.SphereCastAll(transform.position, 10, dir, 500, LayerMask.GetMask("Unit"));
+            hit = Physics.SphereCastAll(transform.position, 10, dir, 700, LayerMask.GetMask("Unit"));
             foreach (var ray in hit)
             {
                 if (ray.collider.gameObject.TryGetComponent(out Player unit))
@@ -35,11 +35,11 @@ public class LaserObj : MonoBehaviour
                     unit.GetStates().Hp -= Power;
                     CameraShake.Instance.Shake(0.25f, 0.6f);
                     UIManager.Instance.HitCheck();
-                    StartCoroutine(unit.GodTime(Color.clear, 1));
+                    StartCoroutine(unit.GodTime(Color.clear, 0.1f));
                 }
             }
         }
-        if (PlayerLaserCoroutine != null)
+        if (PlayerLaserCoroutine != null && Laser.gameObject.activeSelf)
         {
             hit = Physics.SphereCastAll(transform.position, 10, dir, 500, LayerMask.GetMask("Enemy"));
             foreach (var ray in hit)
