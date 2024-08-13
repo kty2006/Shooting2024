@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGenerate : MonoBehaviour
+public class EnemyGenerate : MonoSingleTone<EnemyGenerate>
 {
     public float MinX, MaxX, ClampY, ClampZ;
     public Transform EnemyStart;
     public List<GameObject> Enemies = new();
-    private int count = 5;
+    public int count = 5;
     public void OnEnable()
     {
         StartCoroutine(Generate());
@@ -35,22 +35,7 @@ public class EnemyGenerate : MonoBehaviour
                 EnemyController.Instance.ReSetting();
                 yield return new WaitForSeconds(count);
             }
-            if(GameManager.Score == 200)
-            {
-                count = 4;
-            }
-            else if (GameManager.Score == 400)
-            {
-                count = 3;
-            }
-            else if (GameManager.Score == 800)
-            {
-                count = 2;
-            }
-            else if (GameManager.Score == 1600)
-            {
-                count = 1;
-            }
+
         }
     }
 

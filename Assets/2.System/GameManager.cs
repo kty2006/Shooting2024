@@ -89,6 +89,7 @@ public class GameManager : MonoSingleTone<GameManager>
         }
         GameStart = false;
         BossGameStart = false;
+        EnemyGenerate.Instance.count = 2;
         StartCoroutine(reStartSequence.PlaySequence(() => { GameStartSequence(); Progress = 0; GameStart = true; Stage1Clear = true; }));
         StartCoroutine(Boss2Sequence());
     }

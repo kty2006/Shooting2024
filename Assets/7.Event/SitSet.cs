@@ -25,15 +25,6 @@ public class SitSet : MonoSingleTone<SitSet>
             else
                 ActionEvent();
         });
-        //boundary = true;
-        //while (boundary)
-        //{
-        //    Event[Index].PlayEventSet(() =>
-        //    {
-        //        if (EndCheckEventData())
-        //            EndEventData();
-        //    });
-        //}
     }
 
     private bool EndCheckEventData()

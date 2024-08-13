@@ -109,10 +109,7 @@ public class Player : Unit
             Collider[] AllObj = FindObjectsOfType<Collider>();
             foreach (var obj in AllObj)
             {
-                if (obj.transform.gameObject.layer == 14 || obj.transform.gameObject.layer == 6 || obj.transform.gameObject.layer == 12)
-                {
-                    ObjectPool.Instance.EnqueuePool(obj.gameObject);
-                }
+                Destroy(obj.gameObject);    
             }
             StartCoroutine(PlayerDie.PlaySequence(() => {}));
         }
@@ -148,30 +145,30 @@ public class Player : Unit
         yield return null;
         while (currentTime < time)
         {
-            foreach (var render in Renderer)
-            {
-                render.materials[0].color = color;
-                yield return null;
-                Debug.Log("진행중");
-                render.materials[0].color = Color.white;
-                currentTime += Time.deltaTime;
-            }
+            //foreach (var render in Renderer)
+            //{
+            //    render.materials[0].color = color;
+            //    yield return null;
+            //    Debug.Log("진행중");
+            //    render.materials[0].color = Color.white;
+            //}
+            currentTime += Time.deltaTime;
             yield return null;
         }
         foreach (var render in Renderer)
         {
-            if (GetStates().Lv >= 13 && GetStates().Lv < 16)
-            {
-                render.materials[0].color = Color.yellow;
-            }
-            else if (GetStates().Lv < 19 && GetStates().Lv >= 16)
-            {
-                render.materials[0].color = Color.blue;
-            }
-            else if (GetStates().Lv >= 19)
-            {
-                render.materials[0].color = Color.clear;
-            }
+            //if (GetStates().Lv >= 13 && GetStates().Lv < 16)
+            //{
+            //    render.materials[0].color = Color.yellow;
+            //}
+            //else if (GetStates().Lv < 19 && GetStates().Lv >= 16)
+            //{
+            //    render.materials[0].color = Color.blue;
+            //}
+            //else if (GetStates().Lv >= 19)
+            //{
+            //    render.materials[0].color = Color.clear;
+            //}
             if (render.TryGetComponent(out MeshCollider collider))
             {
                 collider.enabled = true;

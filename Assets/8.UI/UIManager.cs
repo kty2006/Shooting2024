@@ -13,6 +13,7 @@ public class UIManager : MonoSingleTone<UIManager>
     public Button PlayButton;
     public Button RankButton;
     public Button GameRankButton;
+    public Button ExitButton;
     public Text Score;
     public Image ProgressUI;
     public Image HitPanel;
@@ -29,6 +30,7 @@ public class UIManager : MonoSingleTone<UIManager>
         PlayButton.onClick.AddListener(() => StartCoroutine(executor.PlaySequence(() => { GameManager.Instance.GameStartSequence(); })));
         RankButton.onClick.AddListener(() => SceneSave.Instance.Scene(1));
         GameRankButton.onClick.AddListener(() => SceneSave.Instance.Scene(1));
+        ExitButton.onClick.AddListener(() => { Application.Quit(); });
     }
 
     public void Update()

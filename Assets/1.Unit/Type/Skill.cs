@@ -37,7 +37,7 @@ public class LaserSkill : ISkill
         SkillTimeAgent = new(CoolTime, (timeAgent) => IsCheck = false, (timeAgent) => { }, (timeAgent) => IsCheck = true);
         if (laserObj.TryGetComponent(out LaserObj laser))
         {
-            laser.Power = Unit.unitStates.Power * times * 1f;
+            laser.Power = Unit.unitStates.Power * times * 0.5f;
             if (Input.GetKey(KeyCode.Z) && IsCheck)
             {
                 laser.gameObject.SetActive(true);
