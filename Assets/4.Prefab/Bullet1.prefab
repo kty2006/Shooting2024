@@ -158,6 +158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitEffect: {fileID: 426454863524683694, guid: 01d7d3401c11b9d4382bbbd08962da8e, type: 3}
   Dir: {x: 0, y: 0, z: 1}
-  Speed: 40
-  Power: 0
+  Speed: 120
+  Power: 24
   IsCheck: 0

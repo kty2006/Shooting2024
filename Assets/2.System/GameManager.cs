@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoSingleTone<GameManager>
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoSingleTone<GameManager>
     public bool BossGameStart = false;
     public float Progress = 0;
     public static int Score;
+    public static SceneSave SceneSave = new();
     public SequenceExecutor boss1Sequence;
     public SequenceExecutor boss2Sequence;
     public SequenceExecutor reStartSequence;
@@ -29,6 +31,8 @@ public class GameManager : MonoSingleTone<GameManager>
     public void Start()
     {
         SettingType();
+        Score = 0;
+        Application.targetFrameRate = 120;
     }
     private void Update()
     {
@@ -42,6 +46,15 @@ public class GameManager : MonoSingleTone<GameManager>
         }
     }
 
+    //private void Update()
+    //{
+    //    if (GameStart)
+    //    {
+    //        Player.Instance.CurrentWeapon.Attack();
+    //        Player.Instance.SkillType.Skill();
+
+    //    }
+    //}
 
     private void SettingType()
     {
@@ -121,7 +134,7 @@ public class GameManager : MonoSingleTone<GameManager>
         CameraShake.Instance.Shake(8f, 6f);
         StartCoroutine(endSequence.PlaySequence(() =>
         {
-            SceneSave.Instance.Scene(1);
+            GameManager.SceneSave.Scene(1);
             //SceneManager.LoadScene(1);
         }));
     }

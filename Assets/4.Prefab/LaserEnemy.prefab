@@ -100,14 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitStates:
-    MaxHp: 240
-    Hp: 240
-    Lv: 15
+    MaxHp: 190
+    Hp: 190
+    Lv: 10
     ItemLv: 0
-    AttackSpeed: 0
-    MoveSpeed: 50
+    AttackSpeed: 600
+    MoveSpeed: 150
     Exp: 30
-    Power: 15
+    Power: 10
     SkillCoolTime:
     - 2
   HpUIObj:

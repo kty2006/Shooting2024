@@ -39,17 +39,17 @@ public class LaserObj : MonoBehaviour
                 }
             }
         }
-        if (PlayerLaserCoroutine != null && Laser.gameObject.activeSelf)
-        {
-            hit = Physics.SphereCastAll(transform.position, 10, dir, 500, LayerMask.GetMask("Enemy"));
-            foreach (var ray in hit)
-            {
-                if (ray.collider.gameObject.TryGetComponent(out Unit unit))
-                {
-                    unit.GetStates().Hp -= Power;
-                }
-            }
-        }
+        //if (PlayerLaserCoroutine != null && Laser.gameObject.activeSelf)
+        //{
+        //    hit = Physics.SphereCastAll(transform.position, 10, dir, 500, LayerMask.GetMask("Enemy"));
+        //    foreach (var ray in hit)
+        //    {
+        //        if (ray.collider.gameObject.TryGetComponent(out Unit unit))
+        //        {
+        //            unit.GetStates().Hp -= Power;
+        //        }
+        //    }
+        //}
     }
     public IEnumerator PlayerDuringLaser()
     {
@@ -66,6 +66,14 @@ public class LaserObj : MonoBehaviour
         yield return null;
         for (; currentTime > 0; currentTime -= 0.02f)
         {
+            hit = Physics.SphereCastAll(transform.position, 10, dir, 500, LayerMask.GetMask("Enemy"));
+            foreach (var ray in hit)
+            {
+                if (ray.collider.gameObject.TryGetComponent(out Unit unit))
+                {
+                    unit.GetStates().Hp -= Power;
+                }
+            }
             Laser.SetWidth(currentTime, currentTime);
             SkillUi.Instance.UnSkillUiFill(currentTime);
             yield return null;
@@ -78,7 +86,7 @@ public class LaserObj : MonoBehaviour
     public IEnumerator MonsterDuringLaser()
     {
         dir = -Vector3.forward;
-        for (currentTime = 0; currentTime <= 7; currentTime += 0.02f)
+        for (currentTime = 0; currentTime <= 3; currentTime += 0.02f)
         {
             Charging.gameObject.SetActive(true);
             yield return null;

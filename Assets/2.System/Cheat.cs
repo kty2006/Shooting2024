@@ -52,7 +52,7 @@ public class Cheat : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            SceneSave.Instance.Scene(0);
+            GameManager.SceneSave.Scene(0);
         }
     }
 

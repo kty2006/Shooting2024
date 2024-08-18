@@ -22,7 +22,7 @@ public class PlayerMove : IMove
         Unit.transform.rotation = Quaternion.Euler(0, 0, (Horizontal * -1) * 20);
         Dir = new(Horizontal, 0, Vertical);
         Dir.Normalize();
-        Unit.transform.Translate(Dir * Unit.unitStates.MoveSpeed * Time.fixedDeltaTime, Space.World);
+        Unit.transform.Translate(Dir * Unit.unitStates.MoveSpeed * Time.deltaTime, Space.World);
     }
 }
 

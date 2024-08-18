@@ -36,7 +36,7 @@ public class Item : MonoBehaviour
             ItemType.Cannon => (Player unit) => { unit.ChangeWeapon(new PlayerBoomAttack(unit, 1)); }
             ,
 
-            ItemType.AssiantGun => (Player unit) => { unit.ChangeWeapon(new PlayerAssiantAttack(unit, 50, 0, unit.AssiantGuns)); }
+            ItemType.AssiantGun => (Player unit) => { unit.ChangeWeapon(new PlayerAssiantAttack(unit, 1, 0, unit.AssiantGuns)); }
 
         };
     }

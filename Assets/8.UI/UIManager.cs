@@ -28,8 +28,8 @@ public class UIManager : MonoSingleTone<UIManager>
     public void Start()
     {
         PlayButton.onClick.AddListener(() => StartCoroutine(executor.PlaySequence(() => { GameManager.Instance.GameStartSequence(); })));
-        RankButton.onClick.AddListener(() => SceneSave.Instance.Scene(1));
-        GameRankButton.onClick.AddListener(() => SceneSave.Instance.Scene(1));
+        RankButton.onClick.AddListener(() => GameManager.SceneSave.Scene(1));
+        GameRankButton.onClick.AddListener(() => GameManager.SceneSave.Scene(1));
         ExitButton.onClick.AddListener(() => { Application.Quit(); });
     }
 

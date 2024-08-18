@@ -5,7 +5,6 @@ using UnityEngine;
 public class BossController : MonoSingleTone<BossController>
 {
     public List<Enemy> Enemies = new();
-    public Transform StartPos;
     public int waittTime = 3;
     public int EndIndex = 2;
     public int startIndex = 0;

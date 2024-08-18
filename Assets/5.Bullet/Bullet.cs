@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public TimeAgent BulletTimeAgent;
     public ParticleSystem HitEffect;
     public Vector3 Dir;
     public int Speed;
@@ -14,8 +13,7 @@ public class Bullet : MonoBehaviour
     public void OnEnable()
     {
         DirCheck();
-        BulletTimeAgent = new(6, (timeAgent) => { }, (timeAgent) => transform.Translate(Dir * Time.fixedDeltaTime * Speed), (timeAgent) => ObjectPool.Instance.EnqueuePool(gameObject)); //이거 최적화
-        TimerSystem.Instance.AddTimer(BulletTimeAgent);
+        StartCoroutine(BulletTimeAgent());
         ObjectPool.Instance.AddPool(HitEffect.gameObject.tag);
     }
 
@@ -38,5 +36,19 @@ public class Bullet : MonoBehaviour
             Debug.Log("갓타임");
             //Accept(EffectCommand.PlayerBoomHit); //EffectCommand를 담든 변수를 하나 만들고 무기가 바뀔때마다 hit파티클이 바뀌도록 설정 할 예정
         }
+        if (!other.transform.TryGetComponent(out Bullet bullet))
+        {
+            ObjectPool.Instance.EnqueuePool(gameObject);
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        transform.Translate(Dir * Time.fixedDeltaTime * Speed);
+    }
+    public IEnumerator BulletTimeAgent()
+    {
+        yield return new WaitForSeconds(2);
+        ObjectPool.Instance.EnqueuePool(gameObject);
     }
 }
